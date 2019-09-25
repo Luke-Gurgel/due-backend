@@ -53,7 +53,7 @@ const UserSchema: Schema = new Schema({
 })
 
 UserSchema.virtual('wedding', {
-  ref: 'Wedding',
+  ref: Model.WEDDING,
   localField: '_id',
   foreignField: 'owner'
 })

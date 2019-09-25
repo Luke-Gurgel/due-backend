@@ -4,6 +4,9 @@ import { Event } from './event'
 import { AlbumPhoto } from './album-photo'
 import { BestPerson } from './best-person'
 import { Song } from './song'
+import { SharedMessageDoc } from './shared-message'
+import { SharedPhotoDoc } from './shared-photo'
+import { GuestDoc } from './guest'
 
 export interface WeddingDoc extends Document {
   _id: string
@@ -17,4 +20,7 @@ export interface WeddingDoc extends Document {
   albumPhotos: AlbumPhoto[]
   bestPeople: BestPerson[]
   playlist: Song[]
+  sharedMessages: SharedMessageDoc[]
+  sharedPhotos: SharedPhotoDoc[]
+  guestList: GuestDoc[]
 }

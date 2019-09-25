@@ -43,14 +43,14 @@ const WeddingSchema: Schema = new Schema({
   },
   couple: CoupleSchema,
   event: EventSchema,
+  bestPeople: [BestPersonSchema],
+  albumPhotos: [AlbumPhotoSchema],
   playlist: {
     type: [SongSchema],
     validate(playlist: Song[]): boolean {
       return playlist.length < 10
     }
-  },
-  bestPeople: [BestPersonSchema],
-  albumPhotos: [AlbumPhotoSchema]
+  }
   // admin (people allowed to manage the event)
 }, options)
 
