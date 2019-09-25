@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { isEmail } from 'validator'
 import { UserDoc, PublicProfile, Credentials } from './types'
-import Models from '../models-enum'
+import Model from '../models'
 
 const UserSchema: Schema = new Schema({
   fname: {
@@ -53,9 +53,21 @@ const UserSchema: Schema = new Schema({
 })
 
 UserSchema.virtual('wedding', {
-  ref: 'Wedding',
+  ref: Model.WEDDING,
   localField: '_id',
   foreignField: 'owner'
+})
+
+UserSchema.virtual('sharedMessages', {
+  ref: Model.SHARED_MESSAGE,
+  localField: '_id',
+  foreignField: 'authorId'
+})
+
+UserSchema.virtual('sharedPhotos', {
+  ref: Model.SHARED_PHOTO,
+  localField: '_id',
+  foreignField: 'authorId'
 })
 
 UserSchema.virtual('fullname').get(function () {
@@ -94,4 +106,4 @@ UserSchema.statics.findByCredentials = async ({ email, password }: Credentials):
   return user
 }
 
-export const User = mongoose.model('User', UserSchema)
+export const User = mongoose.model<UserDoc>(Model.USER, UserSchema)

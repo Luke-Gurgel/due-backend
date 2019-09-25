@@ -1,4 +1,4 @@
-export default enum Model {
+enum Model {
   USER = 'User',
   WEDDING = 'Wedding',
   SHARED_MESSAGE = 'SharedMessage',
@@ -6,3 +6,5 @@ export default enum Model {
   ALBUM_PHOTO = 'AlbumPhoto',
   GUEST = 'Guest'
 }
+
+export default Model
