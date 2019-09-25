@@ -9,7 +9,7 @@ import { CoupleSchema } from './couple'
 // import { GuestSchema } from './guest'
 // import { BestPersonSchema } from './best-person'
 // import { AlbumPhotoSchema } from './album-photo'
-// import { SongSchema } from './song'
+import { SongSchema, Song } from './song'
 
 import Model from '../models'
 import { WeddingDoc } from './types'
@@ -42,16 +42,20 @@ const WeddingSchema: Schema = new Schema({
     type: Date,
     required: true
   },
-  couple: CoupleSchema
-  // playlist: [SongSchema],
-  // trailer: {
-  //   type: Buffer,
-  //   required: true
-  // },
+  trailer: {
+    type: Buffer,
+    required: true
+  },
+  couple: CoupleSchema,
+  playlist: {
+    type: [SongSchema],
+    validate(playlist: Song[]): boolean {
+      return playlist.length < 10
+    }
+  }
   // event: EventSchema,
   // bestPeople: [BestPersonSchema],
   // albumPhotos: [AlbumPhotoSchema],
-  // guestList: [GuestSchema]
   // admin (people allowed to manage the event)
 }, options)
 
@@ -85,3 +89,4 @@ WeddingSchema.pre('save', async function(next): Promise<void> {
 
 const WeddingModel = mongoose.model<WeddingDoc>(Model.WEDDING, WeddingSchema)
 export default WeddingModel
+export * from './types'

@@ -22,3 +22,5 @@ export const CoupleSchema: Schema<Couple> = new Schema({
     trim: true
   }
 })
+
+export * from './types'
