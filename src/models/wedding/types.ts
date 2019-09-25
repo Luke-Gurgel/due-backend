@@ -1,6 +1,7 @@
 import { Document } from 'mongoose'
 import { Couple } from './couple'
 import { Song } from './song'
+import { Event } from './event'
 
 export interface WeddingDoc extends Document {
   id: string
@@ -10,5 +11,6 @@ export interface WeddingDoc extends Document {
   expDate: Date
   trailer: Buffer
   couple: Couple
+  event: Event
   playlist: Song[]
 }

@@ -2,14 +2,14 @@
 import mongoose, { Schema, SchemaOptions } from 'mongoose'
 import bcrypt from 'bcryptjs'
 import { CoupleSchema } from './couple'
+import { EventSchema } from './event'
+import { SongSchema, Song } from './song'
 
 // import { MessageSchema } from './shared-message'
 // import { SharedPhotoSchema } from './shared-photo'
-// import { EventSchema } from './event'
 // import { GuestSchema } from './guest'
 // import { BestPersonSchema } from './best-person'
 // import { AlbumPhotoSchema } from './album-photo'
-import { SongSchema, Song } from './song'
 
 import Model from '../models'
 import { WeddingDoc } from './types'
@@ -47,13 +47,13 @@ const WeddingSchema: Schema = new Schema({
     required: true
   },
   couple: CoupleSchema,
+  event: EventSchema,
   playlist: {
     type: [SongSchema],
     validate(playlist: Song[]): boolean {
       return playlist.length < 10
     }
   }
-  // event: EventSchema,
   // bestPeople: [BestPersonSchema],
   // albumPhotos: [AlbumPhotoSchema],
   // admin (people allowed to manage the event)
