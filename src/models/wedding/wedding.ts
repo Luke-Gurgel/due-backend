@@ -88,6 +88,5 @@ WeddingSchema.pre('save', async function(next): Promise<void> {
   next()
 })
 
-const WeddingModel = mongoose.model<WeddingDoc>(Model.WEDDING, WeddingSchema)
-export default WeddingModel
+export const WeddingModel = mongoose.model<WeddingDoc>(Model.WEDDING, WeddingSchema)
 export * from './types'

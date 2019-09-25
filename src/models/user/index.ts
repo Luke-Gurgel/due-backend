@@ -58,6 +58,18 @@ UserSchema.virtual('wedding', {
   foreignField: 'owner'
 })
 
+UserSchema.virtual('sharedMessages', {
+  ref: Model.SHARED_MESSAGE,
+  localField: '_id',
+  foreignField: 'authorId'
+})
+
+UserSchema.virtual('sharedPhotos', {
+  ref: Model.SHARED_PHOTO,
+  localField: '_id',
+  foreignField: 'authorId'
+})
+
 UserSchema.virtual('fullname').get(function () {
   return this.fname + ' ' + this.lname
 })

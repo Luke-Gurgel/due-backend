@@ -34,6 +34,5 @@ export const GuestSchema: Schema = new Schema({
   }
 })
 
-const GuestModel = mongoose.model<GuestDoc>(Model.GUEST, GuestSchema)
-export default GuestModel
+export const GuestModel = mongoose.model<GuestDoc>(Model.GUEST, GuestSchema)
 export * from './types'
