@@ -3,11 +3,9 @@ import mongoose, { Schema, SchemaOptions } from 'mongoose'
 import bcrypt from 'bcryptjs'
 import { CoupleSchema } from './couple'
 import { EventSchema } from './event'
+import { AlbumPhotoSchema } from './album-photo'
 import { BestPersonSchema } from './best-person'
 import { SongSchema, Song } from './song'
-
-// import { AlbumPhotoSchema } from './album-photo'
-
 import Model from '../models'
 import { WeddingDoc } from './types'
 
@@ -51,19 +49,19 @@ const WeddingSchema: Schema = new Schema({
       return playlist.length < 10
     }
   },
-  bestPeople: [BestPersonSchema]
-  // albumPhotos: [AlbumPhotoSchema],
+  bestPeople: [BestPersonSchema],
+  albumPhotos: [AlbumPhotoSchema]
   // admin (people allowed to manage the event)
 }, options)
 
 WeddingSchema.virtual('sharedMessages', {
-  ref: 'SharedMessage',
+  ref: Model.SHARED_MESSAGE,
   localField: '_id',
   foreignField: 'weddingId'
 })
 
 WeddingSchema.virtual('sharedPhotos', {
-  ref: 'SharedPhoto',
+  ref: Model.SHARED_PHOTO,
   localField: '_id',
   foreignField: 'weddingId'
 })
