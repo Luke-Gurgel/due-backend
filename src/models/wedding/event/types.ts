@@ -1,5 +1,5 @@
 export interface Instruction {
-  id: string
+  _id: string
   title: string
   message: string
 }

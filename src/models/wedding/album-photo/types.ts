@@ -1,4 +1,4 @@
 export interface AlbumPhoto {
-  id: string
+  _id: string
   photo: Buffer
 }

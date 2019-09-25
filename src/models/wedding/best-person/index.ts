@@ -2,7 +2,7 @@ import { Schema } from 'mongoose'
 const { ObjectId } = Schema.Types
 
 export const BestPersonSchema: Schema = new Schema({
-  id: {
+  _id: {
     type: ObjectId,
     required: true
   },

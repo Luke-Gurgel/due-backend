@@ -4,7 +4,7 @@ const { ObjectId } = Schema.Types
 const options: SchemaOptions = { timestamps: true }
 
 export const AlbumPhotoSchema: Schema = new Schema({
-  id: {
+  _id: {
     type: ObjectId,
     required: true
   },

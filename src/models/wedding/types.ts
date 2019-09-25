@@ -6,7 +6,7 @@ import { BestPerson } from './best-person'
 import { Song } from './song'
 
 export interface WeddingDoc extends Document {
-  id: string
+  _id: string
   owner: string
   eventCode: string
   status: string

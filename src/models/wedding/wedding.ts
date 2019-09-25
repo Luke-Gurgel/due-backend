@@ -13,7 +13,7 @@ const { ObjectId } = Schema.Types
 const options: SchemaOptions = { timestamps: true }
 
 const WeddingSchema: Schema = new Schema({
-  id: {
+  _id: {
     type: ObjectId,
     required: true
   },
@@ -62,6 +62,12 @@ WeddingSchema.virtual('sharedMessages', {
 
 WeddingSchema.virtual('sharedPhotos', {
   ref: Model.SHARED_PHOTO,
+  localField: '_id',
+  foreignField: 'weddingId'
+})
+
+WeddingSchema.virtual('guestList', {
+  ref: Model.GUEST,
   localField: '_id',
   foreignField: 'weddingId'
 })

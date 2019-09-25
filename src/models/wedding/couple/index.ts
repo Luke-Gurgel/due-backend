@@ -1,7 +1,6 @@
 import { Schema } from 'mongoose'
-import { Couple, NewlyWed } from './types'
 
-export const NewlyWedSchema: Schema<NewlyWed> = new Schema({
+export const NewlyWedSchema: Schema = new Schema({
   name: {
     type: String,
     required: true
@@ -12,8 +11,7 @@ export const NewlyWedSchema: Schema<NewlyWed> = new Schema({
   }
 })
 
-export const CoupleSchema: Schema<Couple> = new Schema({
-  shit: String,
+export const CoupleSchema: Schema = new Schema({
   groom: NewlyWedSchema,
   bride: NewlyWedSchema,
   coupleStory: {

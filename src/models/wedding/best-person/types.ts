@@ -6,7 +6,7 @@ export enum BestPersonRole {
 }
 
 export interface BestPerson {
-  id: string
+  _id: string
   name: string
   message: string
   role: BestPersonRole
