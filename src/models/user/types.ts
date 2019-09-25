@@ -1,4 +1,4 @@
-import { Model, Document } from 'mongoose'
+import { Document } from 'mongoose'
 
 export interface Credentials {
   email: string;
@@ -20,10 +20,5 @@ export interface UserDoc extends PublicProfile, Document {
   tokens: JwtToken[];
   generateJwt: () => Promise<string>
   toJSON: () => PublicProfile
-}
-
-export interface UserInterface extends Model<UserDoc> {
   findByCredentials: (credentials: Credentials) => Promise<UserDoc>
-  generateJwt: () => Promise<string>
-  toJSON: () => PublicProfile
 }

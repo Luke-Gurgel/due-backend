@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { isEmail } from 'validator'
 import { UserDoc, PublicProfile, Credentials } from './types'
-import Models from '../models-enum'
+import Model from '../models'
 
 const UserSchema: Schema = new Schema({
   fname: {
@@ -94,4 +94,4 @@ UserSchema.statics.findByCredentials = async ({ email, password }: Credentials):
   return user
 }
 
-export const User = mongoose.model('User', UserSchema)
+export const User = mongoose.model<UserDoc>(Model.USER, UserSchema)
