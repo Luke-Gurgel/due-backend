@@ -11,7 +11,7 @@ import { GuestDoc } from './guest'
 export interface WeddingDoc extends Document {
   _id: string
   owner: string
-  eventCode: string
+  eventName: string
   status: string
   expDate: Date
   trailer: Buffer

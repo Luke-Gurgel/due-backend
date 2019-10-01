@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import mongoose, { Schema, SchemaOptions } from 'mongoose'
-import bcrypt from 'bcryptjs'
 import { CoupleSchema } from './couple'
 import { EventSchema } from './event'
 import { AlbumPhotoSchema } from './album-photo'
@@ -22,7 +21,7 @@ const WeddingSchema: Schema = new Schema({
     required: true,
     ref: 'User'
   },
-  eventCode: {
+  eventName: {
     type: String,
     required: true,
     trim: true
@@ -74,10 +73,6 @@ WeddingSchema.virtual('guestList', {
 
 WeddingSchema.pre('save', async function(next): Promise<void> {
   const wedding = this as WeddingDoc
-
-  if (wedding.isModified('eventCode')) {
-    wedding.eventCode = await bcrypt.hash(wedding.eventCode, 8)
-  }
 
   if (wedding.isModified('status')) {
     const expDate = new Date()
