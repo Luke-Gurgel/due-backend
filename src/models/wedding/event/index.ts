@@ -35,7 +35,7 @@ export const EventSchema: Schema = new Schema({
     },
     locationName: String
   },
-  eventDate: Date,
+  date: Date,
   instructions: [InstructionSchema]
 })
 

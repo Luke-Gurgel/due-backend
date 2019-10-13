@@ -18,6 +18,6 @@ export interface EventLocation {
 export interface Event {
   photos: Buffer[]
   location: EventLocation
-  eventDate: Date,
+  date: Date,
   instructions: Instruction[]
 }
