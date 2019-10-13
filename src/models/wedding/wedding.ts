@@ -3,7 +3,7 @@ import mongoose, { Schema, SchemaOptions } from 'mongoose'
 import { CoupleSchema } from './couple'
 import { EventSchema } from './event'
 import { PreWeddingPhotoSchema } from './pre-wedding-photo'
-import { BestPersonSchema } from './best-person'
+import { BestPeopleSchema } from './best-person'
 import Model from '../models'
 import { WeddingDoc, DueEventStatus } from './types'
 
@@ -41,7 +41,7 @@ const WeddingSchema: Schema = new Schema({
   },
   couple: CoupleSchema,
   event: EventSchema,
-  bestPeople: [BestPersonSchema],
+  bestPeople: BestPeopleSchema,
   preWeddingPhotos: [PreWeddingPhotoSchema]
   // admin (people allowed to manage the event)
 }, options)

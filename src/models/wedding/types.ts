@@ -2,7 +2,7 @@ import { Document } from 'mongoose'
 import { Couple } from './couple'
 import { Event } from './event'
 import { PreWeddingPhoto } from './pre-wedding-photo'
-import { BestPerson } from './best-person'
+import { BestPeople } from './best-person'
 import { SharedMessageDoc } from './shared-message'
 import { SharedPhotoDoc } from './shared-photo'
 import { GuestDoc } from './guest'
@@ -20,8 +20,8 @@ export interface WeddingDoc extends Document {
   trailer: Buffer
   couple: Couple
   event: Event
+  bestPeople: BestPeople
   preWeddingPhotos: PreWeddingPhoto[]
-  bestPeople: BestPerson[]
   sharedMessages: SharedMessageDoc[]
   sharedPhotos: SharedPhotoDoc[]
   guestList: GuestDoc[]

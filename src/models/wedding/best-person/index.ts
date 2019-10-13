@@ -1,4 +1,5 @@
 import { Schema } from 'mongoose'
+import { BestPersonRole } from './types'
 const { ObjectId } = Schema.Types
 
 export const BestPersonSchema: Schema = new Schema({
@@ -10,6 +11,10 @@ export const BestPersonSchema: Schema = new Schema({
     type: String,
     required: true
   },
+  relationToCouple: {
+    type: String,
+    required: true
+  },
   message: {
     type: String,
     required: true
@@ -17,12 +22,24 @@ export const BestPersonSchema: Schema = new Schema({
   role: {
     type: String,
     required: true,
-    enum: ['padrinho', 'madrinha', 'dama de honra', 'pajem']
+    enum: [
+      BestPersonRole.BRIDESMAID,
+      BestPersonRole.GROOMSMAN,
+      BestPersonRole.FLOWER_GIRL,
+      BestPersonRole.RING_BEARER
+    ]
   },
   photo: {
     type: Buffer,
     required: true
   }
+})
+
+export const BestPeopleSchema: Schema = new Schema({
+  bridesmaids: [BestPersonSchema],
+  groomsmen: [BestPersonSchema],
+  flowerGirls: [BestPersonSchema],
+  ringBearers: [BestPersonSchema]
 })
 
 export * from './types'
