@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import mongoose, { Schema, SchemaOptions } from 'mongoose'
-import bcrypt from 'bcryptjs'
 import { CoupleSchema } from './couple'
 import { EventSchema } from './event'
-import { AlbumPhotoSchema } from './album-photo'
-import { BestPersonSchema } from './best-person'
-import { SongSchema, Song } from './song'
+import { PreWeddingPhotoSchema } from './pre-wedding-photo'
+import { BestPeopleSchema } from './best-person'
 import Model from '../models'
-import { WeddingDoc } from './types'
+import { WeddingDoc, DueEventStatus } from './types'
 
 const { ObjectId } = Schema.Types
 const options: SchemaOptions = { timestamps: true }
@@ -22,20 +20,20 @@ const WeddingSchema: Schema = new Schema({
     required: true,
     ref: 'User'
   },
-  eventCode: {
+  eventName: {
     type: String,
     required: true,
     trim: true
   },
+  qr: {
+    type: Buffer,
+    required: true
+  },
   status: {
     type: String,
     required: true,
-    enum: ['active', 'inactive', 'expired'],
-    default: 'inactive'
-  },
-  expDate: {
-    type: Date,
-    required: true
+    enum: [DueEventStatus.ACTIVE, DueEventStatus.INACTIVE],
+    default: DueEventStatus.INACTIVE
   },
   trailer: {
     type: Buffer,
@@ -43,14 +41,8 @@ const WeddingSchema: Schema = new Schema({
   },
   couple: CoupleSchema,
   event: EventSchema,
-  bestPeople: [BestPersonSchema],
-  albumPhotos: [AlbumPhotoSchema],
-  playlist: {
-    type: [SongSchema],
-    validate(playlist: Song[]): boolean {
-      return playlist.length < 10
-    }
-  }
+  bestPeople: BestPeopleSchema,
+  preWeddingPhotos: [PreWeddingPhotoSchema]
   // admin (people allowed to manage the event)
 }, options)
 
@@ -75,14 +67,8 @@ WeddingSchema.virtual('guestList', {
 WeddingSchema.pre('save', async function(next): Promise<void> {
   const wedding = this as WeddingDoc
 
-  if (wedding.isModified('eventCode')) {
-    wedding.eventCode = await bcrypt.hash(wedding.eventCode, 8)
-  }
-
   if (wedding.isModified('status')) {
-    const expDate = new Date()
-    expDate.setMonth(expDate.getMonth() + 3)
-    wedding.expDate = expDate
+    // do something?
   }
 
   next()

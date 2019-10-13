@@ -1,14 +1,22 @@
 export enum BestPersonRole {
-  PADRINHO = 'padrinho',
-  MADRINHA = 'madrinha',
-  DAMA_DE_HONRA = 'dama de honra',
-  PAJEM = 'pajem'
+  GROOMSMAN = 'GROOMSMAN',
+  BRIDESMAID = 'BRIDESMAID',
+  FLOWER_GIRL = 'FLOWER_GIRL',
+  RING_BEARER = 'RING_BEARER'
 }
 
 export interface BestPerson {
   _id: string
   name: string
+  relationToCouple: string
   message: string
   role: BestPersonRole
   photo: Buffer
+}
+
+export interface BestPeople {
+  bridesmaids: BestPerson[]
+  groomsmen: BestPerson[]
+  flowerGirls: BestPerson[]
+  ringBearers: BestPerson[]
 }
