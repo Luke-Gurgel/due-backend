@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import mongoose, { Schema, SchemaOptions } from 'mongoose'
+import bcrypt from 'bcryptjs'
 import { CoupleSchema } from './couple'
 import { EventSchema } from './event'
 import { PreWeddingPhotoSchema } from './pre-wedding-photo'
@@ -35,6 +36,10 @@ const WeddingSchema: Schema = new Schema({
     enum: [DueEventStatus.ACTIVE, DueEventStatus.INACTIVE],
     default: DueEventStatus.INACTIVE
   },
+  stripeAccount: {
+    type: String,
+    required: true
+  },
   trailer: {
     type: Buffer,
     required: true
@@ -58,6 +63,12 @@ WeddingSchema.virtual('sharedPhotos', {
   foreignField: 'weddingId'
 })
 
+WeddingSchema.virtual('gifts', {
+  ref: Model.GIFT,
+  localField: '_id',
+  foreignField: 'weddingId'
+})
+
 WeddingSchema.virtual('guestList', {
   ref: Model.GUEST,
   localField: '_id',
@@ -67,8 +78,8 @@ WeddingSchema.virtual('guestList', {
 WeddingSchema.pre('save', async function(next): Promise<void> {
   const wedding = this as WeddingDoc
 
-  if (wedding.isModified('status')) {
-    // do something?
+  if (wedding.isModified('stripeAccount')) {
+    this.stripeAccount = await bcrypt.hash(this.stripeAccount, 8)
   }
 
   next()
