@@ -10,7 +10,6 @@ module.exports = {
     "plugin:jest/recommended",
     'plugin:@typescript-eslint/recommended',
     'prettier/@typescript-eslint',
-    'standard'
   ],
   globals: {
     Atomics: 'readonly',
@@ -23,5 +22,15 @@ module.exports = {
   },
   rules: {
     "space-before-function-paren": "off",
+    "@typescript-eslint/no-use-before-define": "off",
+    "no-unexpected-multiline": 'error'
+  },
+  settings: {
+    "import/resolver": {
+      alias: {
+        map: [["src", "./src/", "__tests__", "./__tests__/"]],
+        extensions: [".js", ".ts", ".json"]
+      }
+    }
   }
 }
