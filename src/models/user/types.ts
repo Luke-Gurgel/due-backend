@@ -14,6 +14,7 @@ export interface JwtToken {
 export interface PublicProfile {
   fname: string;
   lname: string;
+  fullname: string;
   email: string;
   avatar?: Buffer;
 }
@@ -21,6 +22,7 @@ export interface PublicProfile {
 export interface UserDoc extends Document {
   fname: string;
   lname: string;
+  fullname: string;
   password: string;
   avatar?: Buffer;
   tokens: JwtToken[];

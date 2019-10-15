@@ -6,8 +6,6 @@
   "scripts": {
     "start": "node dist/index.js",
     "dev": "env-cmd -f ./config/dev.env nodemon src/index.ts",
-    "dev:once": "env-cmd -f ./config/dev.env sucrase-node src/index.ts",
-    "build": "sucrase ./src -d ./dist --transforms typescript,imports",
     "test": "env-cmd -f ./config/test.env jest --watch --runInBand",
     "lint": "eslint src --ext .ts"
   },
@@ -55,8 +53,9 @@
     "jest": "^24.9.0",
     "nodemon": "^1.19.1",
     "prettier": "^1.18.2",
-    "sucrase": "^3.10.1",
     "supertest": "^4.0.2",
-    "typescript": "^3.5.3"
+    "ts-node": "^8.4.1",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^3.6.4"
   }
 }
