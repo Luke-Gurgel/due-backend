@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-use-before-define */
-import mongoose, { Schema } from 'mongoose'
+import mongoose, { Schema, HookNextFunction } from 'mongoose'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { isEmail } from 'validator'
@@ -24,7 +23,7 @@ const UserSchema: Schema = new Schema({
     lowercase: true,
     validate (val: string): boolean {
       if (!isEmail(val)) {
-        throw new Error('Invalid email entered')
+        throw Error('Invalid email entered')
       }
       return true
     }
@@ -36,7 +35,7 @@ const UserSchema: Schema = new Schema({
     minlength: [8, 'Password is too short'],
     validate (val: string): boolean {
       if (val.includes('password')) {
-        throw new Error('Password cannot contain the word "password"')
+        throw Error('Password cannot contain the word "password"')
       }
       return true
     }
@@ -70,24 +69,29 @@ UserSchema.virtual('sharedPhotos', {
   foreignField: 'authorId'
 })
 
-UserSchema.virtual('fullname').get(function () {
+UserSchema.virtual('fullname').get(function (this: UserDoc) {
   return this.fname + ' ' + this.lname
 })
 
-UserSchema.pre('save', async function(next): Promise<void> {
+UserSchema.pre('save', async function(this: UserDoc, next: HookNextFunction): Promise<void> {
   if (this.isModified('password')) {
     this.password = await bcrypt.hash(this.password, 8)
   }
+
+  next()
 })
 
-UserSchema.methods.generateJwt = async function(): Promise<string> {
-  const token = jwt.sign({ _id: this.id.toString() }, process.env.JWT_SECRET)
-  this.tokens = [...this.tokens, { token }]
-  await this.save()
-  return token
+UserSchema.methods.generateJwt = async function(this: UserDoc): Promise<string | undefined> {
+  if (process.env.JWT_SECRET !== undefined) {
+    const token = jwt.sign({ _id: this.id.toString() }, process.env.JWT_SECRET)
+    this.tokens = [...this.tokens, { token }]
+    await this.save()
+    return token
+  }
+  throw Error('could not generate token. process.env.JWT_SECRET is undefined')
 }
 
-UserSchema.methods.toJSON = function(): PublicProfile {
+UserSchema.methods.toJSON = function(this: UserDoc): PublicProfile {
   const user = this.toObject()
 
   delete user.password
@@ -106,4 +110,5 @@ UserSchema.statics.findByCredentials = async ({ email, password }: Credentials):
   return user
 }
 
-export const User = mongoose.model<UserDoc>(Model.USER, UserSchema)
+const User = mongoose.model<UserDoc>(Model.USER, UserSchema)
+export default User
