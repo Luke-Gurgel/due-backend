@@ -75,10 +75,8 @@ WeddingSchema.virtual('guestList', {
   foreignField: 'weddingId'
 })
 
-WeddingSchema.pre('save', async function(next): Promise<void> {
-  const wedding = this as WeddingDoc
-
-  if (wedding.isModified('stripeAccount')) {
+WeddingSchema.pre('save', async function(this: WeddingDoc, next): Promise<void> {
+  if (this.isModified('stripeAccount')) {
     this.stripeAccount = await bcrypt.hash(this.stripeAccount, 8)
   }
 

@@ -12,8 +12,8 @@ export const userBody = {
 export const userOneId = new mongoose.Types.ObjectId()
 export const userOne = {
   _id: userOneId,
-  fname: 'Lucas',
-  lname: 'Gurgel',
+  fname: 'Pedro',
+  lname: 'Alves',
   email: 'lol123@example.com',
   password: 'IunnaIsFive',
   tokens: [{
@@ -21,8 +21,23 @@ export const userOne = {
   }]
 }
 
+export const userTwoId = new mongoose.Types.ObjectId()
+export const userTwo = {
+  _id: userTwoId,
+  fname: 'Heath',
+  lname: 'Harmison',
+  email: 'heath@example.com',
+  password: 'IunnaIsFive',
+  tokens: [
+    { token: jwt.sign({ _id: userTwoId }, process.env.JWT_SECRET || '') },
+    { token: jwt.sign({ _id: userTwoId }, process.env.JWT_SECRET || '') },
+  ]
+}
+
 export const setupDB = async (): Promise<void> => {
+  await User.deleteMany(null)
   await new User(userOne).save()
+  await new User(userTwo).save()
 }
 
 export const clearDB = async (): Promise<void> => {

@@ -28,7 +28,9 @@ export const auth = async (req: EnhancedRequest, res: Response, next: NextFuncti
     const { _id } = jwt.verify(token, process.env.JWT_SECRET) as { _id: string }
     const user = await User.findOne({ _id, 'tokens.token': token })
 
-    if (!user) throw Error()
+    if (!user) {
+      return res.status(404).send({ error: 'User not found' })
+    }
 
     req.user = user
     req.token = token
