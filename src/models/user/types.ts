@@ -1,4 +1,4 @@
-import { Document } from 'mongoose'
+import { Model, Document } from 'mongoose'
 import { SharedMessageDoc } from '../wedding/shared-message'
 import { SharedPhotoDoc } from '../wedding/shared-photo'
 
@@ -28,6 +28,12 @@ export interface UserDoc extends Document {
   tokens: JwtToken[];
   sharedMessages: SharedMessageDoc[]
   sharedPhotos: SharedPhotoDoc[]
+  generateJwt: () => Promise<string>
+  toJSON: () => PublicProfile
+  findByCredentials: (credentials: Credentials) => Promise<UserDoc>
+}
+
+export interface UserInterface extends Model<UserDoc> {
   generateJwt: () => Promise<string>
   toJSON: () => PublicProfile
   findByCredentials: (credentials: Credentials) => Promise<UserDoc>
