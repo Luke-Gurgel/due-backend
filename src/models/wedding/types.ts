@@ -17,6 +17,7 @@ export interface WeddingDoc extends Document {
   owner: string
   eventName: string
   status: DueEventStatus
+  stripeAccount: string
   trailer: Buffer
   couple: Couple
   event: Event
