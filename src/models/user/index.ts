@@ -2,7 +2,7 @@ import mongoose, { Schema, HookNextFunction } from 'mongoose'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { isEmail } from 'validator'
-import { UserDoc, PublicProfile, Credentials } from './types'
+import { UserInterface, UserDoc, PublicProfile, Credentials } from './types'
 import Model from '../models'
 
 const UserSchema: Schema = new Schema({
@@ -110,5 +110,5 @@ UserSchema.statics.findByCredentials = async ({ email, password }: Credentials):
   return user
 }
 
-const User = mongoose.model<UserDoc>(Model.USER, UserSchema)
+const User = mongoose.model<UserDoc, UserInterface>(Model.USER, UserSchema)
 export default User
