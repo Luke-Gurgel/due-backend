@@ -1,9 +1,10 @@
 import request from 'supertest'
 import app from 'src/app'
-import { setupDB, userOne } from './__fixtures__/db'
+import { setupDB, clearDB, userOne } from './__fixtures__/db'
 import User from 'src/models/user'
 
 beforeEach(setupDB)
+afterAll(clearDB)
 
 const route = '/users/login'
 
@@ -25,16 +26,16 @@ test('should not log in a nonexistent user', async () => {
     .expect(400)
 })
 
-test('should reject with 400 if email is missing', async () => {
-  await request(app)
-    .post(route)
-    .send({ password: 'HUIASDHIdhasi787' })
-    .expect(400)
-})
-
 test('should reject with 400 if password is missing', async () => {
   await request(app)
     .post(route)
     .send({ email: 'lol123@mail.com' })
+    .expect(400)
+})
+
+test('should reject with 400 if email is missing', async () => {
+  await request(app)
+    .post(route)
+    .send({ password: 'HUIASDHIdhasi787' })
     .expect(400)
 })
