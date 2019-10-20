@@ -5,7 +5,7 @@ export const loginUser = async (req: Request, res: Response): Promise<Response |
   const { email, password } = req.body
 
   if (!email || !password) {
-    res.status(400).send({ error: 'Missing required field' })
+    return res.status(400).send({ error: 'Missing required field' })
   }
 
   try {

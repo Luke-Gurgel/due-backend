@@ -4,6 +4,7 @@ import { setupDB, clearDB, userOne, userOneId, userTwo, userTwoId } from './__fi
 import User from 'src/models/user'
 
 beforeEach(setupDB)
+afterAll(clearDB)
 
 const route = '/users/logout'
 const authHeader = 'Authorization'
@@ -53,13 +54,4 @@ test('should reject with a 404 if auth token is invalid', async () => {
     .post(route)
     .set(authHeader, 'Bearer ' + '')
     .expect(401)
-})
-
-test('should reject with a 404 if auth token does not belong to any user', async () => {
-  clearDB()
-
-  await request(app)
-    .post(route)
-    .set(authHeader, 'Bearer ' + userOne.tokens[0].token)
-    .expect(404)
 })
