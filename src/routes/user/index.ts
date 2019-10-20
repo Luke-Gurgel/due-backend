@@ -4,6 +4,7 @@ import { createUser } from './create'
 import { loginUser } from './login'
 import { logoutUser } from './logout'
 import { getUserProfile } from './profile'
+import { updateUser } from './update'
 
 const userRouter = Router()
 
@@ -18,5 +19,6 @@ userRouter.route('/users/logout')
 
 userRouter.route('/users/me')
   .get(auth, getUserProfile)
+  .patch(auth, updateUser)
 
 export default userRouter

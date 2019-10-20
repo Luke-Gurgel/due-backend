@@ -32,6 +32,7 @@ export interface UserDoc extends Document {
   generateJwt: () => Promise<string>
   toJSON: () => PublicProfile
   findByCredentials: (credentials: Credentials) => Promise<UserDoc>
+  [key: string]: any
 }
 
 export interface UserInterface extends Model<UserDoc> {
