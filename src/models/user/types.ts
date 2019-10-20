@@ -4,7 +4,7 @@ import { SharedPhotoDoc } from '../wedding/shared-photo'
 
 export interface Credentials {
   email: string;
-  password: string;
+  password: string
 }
 
 export interface JwtToken {
@@ -14,18 +14,19 @@ export interface JwtToken {
 export interface PublicProfile {
   fname: string;
   lname: string;
-  fullname: string;
+  fullname: string
   email: string;
-  avatar?: Buffer;
+  avatar?: Buffer
 }
 
 export interface UserDoc extends Document {
   fname: string;
   lname: string;
-  fullname: string;
-  password: string;
-  avatar?: Buffer;
-  tokens: JwtToken[];
+  fullname: string
+  email: string
+  password: string
+  avatar?: Buffer
+  tokens: JwtToken[]
   sharedMessages: SharedMessageDoc[]
   sharedPhotos: SharedPhotoDoc[]
   generateJwt: () => Promise<string>
