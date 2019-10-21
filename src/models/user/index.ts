@@ -1,9 +1,11 @@
-import mongoose, { Schema, HookNextFunction } from 'mongoose'
+import mongoose, { Schema, SchemaOptions, HookNextFunction } from 'mongoose'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { isEmail } from 'validator'
 import { UserInterface, UserDoc, PublicProfile, Credentials } from './types'
 import Model from '../models'
+
+const options: SchemaOptions = { timestamps: true }
 
 const UserSchema: Schema = new Schema({
   fname: {
@@ -40,6 +42,7 @@ const UserSchema: Schema = new Schema({
       return true
     }
   },
+  avatar: Buffer,
   tokens: [{
     token: {
       type: String,
@@ -49,7 +52,7 @@ const UserSchema: Schema = new Schema({
   recentlyVisitedEvents: [{
     name: String
   }]
-})
+}, options)
 
 UserSchema.virtual('wedding', {
   ref: Model.WEDDING,
