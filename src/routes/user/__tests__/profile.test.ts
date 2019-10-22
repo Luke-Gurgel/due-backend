@@ -15,6 +15,9 @@ test('should return user public profile', async () => {
 		.expect(200)
 
 	expect(res.body.user).not.toBeNull()
+	if (!res.body.user) throw Error()
+
+	expect(res.body.user).toHaveProperty('fname')
 	expect(res.body.user.password).toBeUndefined()
 	expect(res.body.user.tokens).toBeUndefined()
 })
