@@ -1,4 +1,4 @@
 export interface PreWeddingPhoto {
-  _id: string
-  photo: Buffer
+	_id: any
+	photo: Buffer
 }

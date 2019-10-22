@@ -11,77 +11,80 @@ import { WeddingDoc, DueEventStatus } from './types'
 const { ObjectId } = Schema.Types
 const options: SchemaOptions = { timestamps: true }
 
-const WeddingSchema: Schema = new Schema({
-  _id: {
-    type: ObjectId,
-    required: true
-  },
-  owner: {
-    type: ObjectId,
-    required: true,
-    ref: 'User'
-  },
-  eventName: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  qr: {
-    type: Buffer,
-    required: true
-  },
-  status: {
-    type: String,
-    required: true,
-    enum: [DueEventStatus.ACTIVE, DueEventStatus.INACTIVE],
-    default: DueEventStatus.INACTIVE
-  },
-  stripeAccount: {
-    type: String,
-    required: true
-  },
-  trailer: {
-    type: Buffer,
-    required: true
-  },
-  couple: CoupleSchema,
-  event: EventSchema,
-  bestPeople: BestPeopleSchema,
-  preWeddingPhotos: [PreWeddingPhotoSchema]
-  // admin (people allowed to manage the event)
-}, options)
+const WeddingSchema: Schema = new Schema(
+	{
+		ownerId: {
+			type: ObjectId,
+			required: true,
+			ref: 'User',
+		},
+		status: {
+			type: String,
+			enum: [DueEventStatus.ACTIVE, DueEventStatus.INACTIVE],
+			default: DueEventStatus.INACTIVE,
+		},
+		eventName: {
+			type: String,
+			trim: true,
+		},
+		qrCode: {
+			type: Buffer,
+		},
+		stripeAccount: {
+			type: String,
+		},
+		trailer: {
+			type: Buffer,
+		},
+		couple: {
+			type: CoupleSchema,
+		},
+		event: {
+			type: EventSchema,
+		},
+		bestPeople: {
+			type: BestPeopleSchema,
+		},
+		preWeddingPhotos: {
+			type: [PreWeddingPhotoSchema],
+			default: undefined,
+		},
+		// admin (people allowed to manage the event)
+	},
+	options,
+)
 
 WeddingSchema.virtual('sharedMessages', {
-  ref: Model.SHARED_MESSAGE,
-  localField: '_id',
-  foreignField: 'weddingId'
+	ref: Model.SHARED_MESSAGE,
+	localField: '_id',
+	foreignField: 'weddingId',
 })
 
 WeddingSchema.virtual('sharedPhotos', {
-  ref: Model.SHARED_PHOTO,
-  localField: '_id',
-  foreignField: 'weddingId'
+	ref: Model.SHARED_PHOTO,
+	localField: '_id',
+	foreignField: 'weddingId',
 })
 
 WeddingSchema.virtual('gifts', {
-  ref: Model.GIFT,
-  localField: '_id',
-  foreignField: 'weddingId'
+	ref: Model.GIFT,
+	localField: '_id',
+	foreignField: 'weddingId',
 })
 
 WeddingSchema.virtual('guestList', {
-  ref: Model.GUEST,
-  localField: '_id',
-  foreignField: 'weddingId'
+	ref: Model.GUEST,
+	localField: '_id',
+	foreignField: 'weddingId',
 })
 
 WeddingSchema.pre('save', async function(this: WeddingDoc, next): Promise<void> {
-  if (this.isModified('stripeAccount')) {
-    this.stripeAccount = await bcrypt.hash(this.stripeAccount, 8)
-  }
+	if (this.isModified('stripeAccount') && this.stripeAccount) {
+		this.stripeAccount = await bcrypt.hash(this.stripeAccount, 8)
+	}
 
-  next()
+	next()
 })
 
-export const WeddingModel = mongoose.model<WeddingDoc>(Model.WEDDING, WeddingSchema)
+export const Wedding = mongoose.model<WeddingDoc>(Model.WEDDING, WeddingSchema)
 export * from './types'

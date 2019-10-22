@@ -64,7 +64,7 @@ const UserSchema: Schema = new Schema(
 UserSchema.virtual('wedding', {
 	ref: Model.WEDDING,
 	localField: '_id',
-	foreignField: 'owner',
+	foreignField: 'ownerId',
 })
 
 UserSchema.virtual('sharedMessages', {
