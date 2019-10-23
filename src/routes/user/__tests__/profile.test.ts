@@ -1,6 +1,6 @@
 import request from 'supertest'
 import app from 'src/app'
-import { userOne, setupDB, clearDB } from './__fixtures__/db'
+import { userOne, setupDB, clearDB } from '__tests__/__fixtures__/db'
 
 beforeEach(setupDB)
 afterAll(clearDB)
@@ -14,7 +14,6 @@ test('should return user public profile', async () => {
 		.set(authHeader, 'Bearer ' + userOne.tokens[0].token)
 		.expect(200)
 
-	expect(res.body.user).not.toBeNull()
 	if (!res.body.user) throw Error()
 
 	expect(res.body.user).toHaveProperty('fname')
