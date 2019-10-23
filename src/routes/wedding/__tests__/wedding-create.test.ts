@@ -1,7 +1,7 @@
 import request from 'supertest'
 import app from 'src/app'
 import { DueEventStatus } from 'src/models/wedding'
-import { clearDB, setupDB, userOne, userOneId } from './__fixtures__/db'
+import { clearDB, setupDB, userOne, userOneId } from '__tests__/__fixtures__/db'
 
 beforeEach(setupDB)
 afterEach(clearDB)

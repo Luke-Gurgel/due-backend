@@ -3,6 +3,13 @@ import jwt from 'jsonwebtoken'
 import User from 'src/models/user'
 import { Wedding, WeddingBase, DueEventStatus } from 'src/models/wedding'
 
+export const userBody = {
+	fname: 'Luke',
+	lname: 'Gurgel',
+	email: 'cali7lga@gmail.com',
+	password: 'IunnaIs5YO',
+}
+
 export const userOneId = new mongoose.Types.ObjectId()
 export const userOne = {
 	_id: userOneId,
@@ -20,7 +27,10 @@ export const userTwo = {
 	lname: 'Harmison',
 	email: 'heath@example.com',
 	password: 'IunnaIsFive',
-	tokens: [{ token: jwt.sign({ _id: userTwoId }, process.env.JWT_SECRET || '') }],
+	tokens: [
+		{ token: jwt.sign({ _id: userTwoId }, process.env.JWT_SECRET || '') },
+		{ token: jwt.sign({ _id: userTwoId }, process.env.JWT_SECRET || '') },
+	],
 }
 
 export const weddingOneId = new mongoose.Types.ObjectId()

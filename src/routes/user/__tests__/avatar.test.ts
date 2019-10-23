@@ -1,7 +1,7 @@
 import request from 'supertest'
 import app from 'src/app'
 import User from 'src/models/user'
-import { userOne, userOneId, setupDB, clearDB } from './__fixtures__/db'
+import { userOne, userOneId, setupDB, clearDB } from '__tests__/__fixtures__/db'
 
 beforeEach(setupDB)
 afterAll(clearDB)
@@ -13,7 +13,7 @@ test('should upload avatar image', async () => {
 	await request(app)
 		.post(route)
 		.set(authHeader, 'Bearer ' + userOne.tokens[0].token)
-		.attach('avatar', '__tests__/__fixtures__/mimo.jpg')
+		.attach('avatar', '__tests__/__assets__/mimo.jpg')
 		.expect(200)
 
 	const userWithAvatar = await User.findById(userOneId)
@@ -25,7 +25,7 @@ test('should upload avatar image', async () => {
 test('should not upload avatar if not authenticated', async () => {
 	await request(app)
 		.post(route)
-		.attach('avatar', '__tests__/__fixtures__/mimo.jpg')
+		.attach('avatar', '__tests__/__assets__/mimo.jpg')
 		.expect(401)
 })
 
@@ -33,7 +33,7 @@ test('should not upload avatar if file has invalid format', async () => {
 	await request(app)
 		.post(route)
 		.set(authHeader, 'Bearer ' + userOne.tokens[0].token)
-		.attach('avatar', '__tests__/__fixtures__/meetup.HEIC')
+		.attach('avatar', '__tests__/__assets__/meetup.HEIC')
 		.expect(400)
 
 	// console.log(JSON.parse(res.error.text).error)
@@ -43,7 +43,7 @@ test('should not upload avatar if file is over 1mb', async () => {
 	await request(app)
 		.post(route)
 		.set(authHeader, 'Bearer ' + userOne.tokens[0].token)
-		.attach('avatar', '__tests__/__fixtures__/img.jpg')
+		.attach('avatar', '__tests__/__assets__/img.jpg')
 		.expect(400)
 
 	// console.log(JSON.parse(res.error.text).error)
