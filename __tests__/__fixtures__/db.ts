@@ -36,14 +36,14 @@ export const userTwo = {
 export const weddingOneId = new mongoose.Types.ObjectId()
 export const weddingOne: WeddingBase = {
 	_id: weddingOneId,
-	ownerId: userOneId,
+	ownerId: userOne._id,
 	status: DueEventStatus.INACTIVE,
 }
 
 export const weddingTwoId = new mongoose.Types.ObjectId()
 export const weddingTwo: WeddingBase = {
 	_id: weddingTwoId,
-	ownerId: userTwoId,
+	ownerId: userTwo._id,
 	status: DueEventStatus.ACTIVE,
 }
 
@@ -52,6 +52,8 @@ export const setupDB = async (): Promise<void> => {
 	await User.deleteMany(null)
 	await new User(userOne).save()
 	await new User(userTwo).save()
+	await new Wedding(weddingOne).save()
+	await new Wedding(weddingTwo).save()
 }
 
 export const clearDB = async (): Promise<void> => {
