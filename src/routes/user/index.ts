@@ -3,7 +3,7 @@ import { auth, avatar } from 'src/middlewares'
 import { createUser } from './create'
 import { loginUser } from './login'
 import { logoutUser } from './logout'
-import { getUserProfile } from './profile'
+import { getUser } from './get-user'
 import { updateUser } from './update'
 import { uploadAvatar, avatarErrorHandler } from './avatar'
 
@@ -21,7 +21,7 @@ userRouter
 
 userRouter
 	.route('/users/me')
-	.get(auth, getUserProfile)
+	.get(auth, getUser)
 	.patch(auth, updateUser)
 
 export default userRouter

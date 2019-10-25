@@ -1,4 +1,4 @@
-import { Document, Types } from 'mongoose'
+import { Document } from 'mongoose'
 import { Couple } from './couple'
 import { Event } from './event'
 import { PreWeddingPhoto } from './pre-wedding-photo'
@@ -25,14 +25,14 @@ export interface WeddingBase {
 	preWeddingPhotos?: PreWeddingPhoto[]
 }
 
-export interface GuestAccessVersion extends WeddingBase {
+export interface GuestVersion extends WeddingBase {
 	sharedMessages?: SharedMessageDoc[]
 	sharedPhotos?: SharedPhotoDoc[]
 }
 
-export interface PortalVersion extends WeddingBase {
+export interface AdminVersion extends WeddingBase {
 	stripeAccount?: string
 	guestList?: GuestDoc[]
 }
 
-export interface WeddingDoc extends GuestAccessVersion, PortalVersion, Document {}
+export interface WeddingDoc extends GuestVersion, AdminVersion, Document {}
