@@ -27,9 +27,9 @@ export interface UserDoc extends Document {
 	fullname: string
 	email: string
 	password: string
-	avatar?: Buffer
 	tokens: JwtToken[]
-	wedding: WeddingDoc
+	avatar?: Buffer
+	wedding?: WeddingDoc
 	sharedMessages: SharedMessageDoc[]
 	sharedPhotos: SharedPhotoDoc[]
 	generateJwt: () => Promise<string>

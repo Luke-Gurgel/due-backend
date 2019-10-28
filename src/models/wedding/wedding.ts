@@ -10,7 +10,7 @@ import { WeddingDoc, DueEventStatus, GuestVersion } from './types'
 const { ObjectId } = Schema.Types
 const options: SchemaOptions = { timestamps: true }
 
-const WeddingSchema: Schema = new Schema(
+export const WeddingSchema: Schema = new Schema(
 	{
 		ownerId: {
 			type: ObjectId,

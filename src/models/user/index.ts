@@ -65,6 +65,7 @@ UserSchema.virtual('wedding', {
 	ref: Model.WEDDING,
 	localField: '_id',
 	foreignField: 'ownerId',
+	justOne: true,
 })
 
 UserSchema.virtual('sharedMessages', {

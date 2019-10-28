@@ -15,7 +15,7 @@ test('should create and return a new wedding', async () => {
 		.set(authHeader, 'Bearer ' + userOne.tokens[0].token)
 		.expect(200)
 
-	expect(res.body.wedding).not.toBeNull()
+	expect(res.body.wedding).toBeDefined()
 })
 
 test('newly created wedding should be associated with a specific user', async () => {
