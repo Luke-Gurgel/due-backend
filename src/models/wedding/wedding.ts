@@ -5,7 +5,7 @@ import { EventSchema } from './event'
 import { PreWeddingPhotoSchema } from './pre-wedding-photo'
 import { BestPeopleSchema } from './best-person'
 import Model from '../models'
-import { WeddingDoc, DueEventStatus } from './types'
+import { WeddingDoc, DueEventStatus, GuestVersion } from './types'
 
 const { ObjectId } = Schema.Types
 const options: SchemaOptions = { timestamps: true }
@@ -81,6 +81,14 @@ WeddingSchema.pre('save', async function(this: WeddingDoc, next): Promise<void> 
 	// todo?
 	next()
 })
+
+WeddingSchema.methods.guestVersion = function(this: WeddingDoc): GuestVersion {
+	const wedding: WeddingDoc = this.toObject()
+
+	delete wedding.stripeAccount
+
+	return wedding
+}
 
 export const Wedding = mongoose.model<WeddingDoc>(Model.WEDDING, WeddingSchema)
 export * from './types'

@@ -41,10 +41,20 @@ export const weddingOne: WeddingBase = {
 }
 
 export const weddingTwoId = new mongoose.Types.ObjectId()
+export const weddingTwoEventName = 'where the light is'
 export const weddingTwo: WeddingBase = {
 	_id: weddingTwoId,
 	ownerId: userTwo._id,
 	status: DueEventStatus.ACTIVE,
+	eventName: weddingTwoEventName,
+}
+
+export const weddingThreeId = new mongoose.Types.ObjectId()
+export const weddingThree: WeddingBase = {
+	_id: weddingThreeId,
+	ownerId: userTwo._id,
+	status: DueEventStatus.INACTIVE,
+	eventName: weddingTwoEventName,
 }
 
 export const setupDB = async (): Promise<void> => {
@@ -54,6 +64,7 @@ export const setupDB = async (): Promise<void> => {
 	await new User(userTwo).save()
 	await new Wedding(weddingOne).save()
 	await new Wedding(weddingTwo).save()
+	await new Wedding(weddingThree).save()
 }
 
 export const clearDB = async (): Promise<void> => {

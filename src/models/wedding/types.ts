@@ -35,4 +35,6 @@ export interface AdminVersion extends WeddingBase {
 	guestList?: GuestDoc[]
 }
 
-export interface WeddingDoc extends GuestVersion, AdminVersion, Document {}
+export interface WeddingDoc extends GuestVersion, AdminVersion, Document {
+	guestVersion: () => GuestVersion
+}
