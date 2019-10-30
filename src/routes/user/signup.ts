@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import User from 'src/models/user'
 
-export const createUser = async (req: Request, res: Response): Promise<Response | void> => {
+export const signupUser = async (req: Request, res: Response): Promise<Response | void> => {
 	const userWithSameEmail = await User.findOne({ email: req.body.email })
 
 	if (userWithSameEmail) {

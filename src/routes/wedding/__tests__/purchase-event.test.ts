@@ -1,9 +1,19 @@
 import request from 'supertest'
 import app from 'src/app'
-import { clearDB, setupDB, userOne, userThree, userThreeId } from '__tests__/__fixtures__/db'
+import { clearDB } from '__tests__/__fixtures__/db'
+import { userOne, userThree, userThreeId } from '__tests__/__fixtures__/users'
+import { weddingOne } from '__tests__/__fixtures__/weddings'
 import { Wedding } from 'src/models/wedding'
+import User from 'src/models/user'
 
-beforeEach(setupDB)
+beforeAll(clearDB)
+
+beforeEach(async () => {
+	await new User(userOne).save()
+	await new User(userThree).save()
+	await new Wedding(weddingOne).save()
+})
+
 afterEach(clearDB)
 
 jest.mock('stripe', () => {
