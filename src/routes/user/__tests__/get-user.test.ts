@@ -1,6 +1,6 @@
 import request from 'supertest'
 import app from 'src/app'
-import { userOne, setupDB, clearDB } from '__tests__/__fixtures__/db'
+import { userOne, userOneId, setupDB, clearDB } from '__tests__/__fixtures__/db'
 
 beforeEach(setupDB)
 afterAll(clearDB)
@@ -27,8 +27,8 @@ test('should include user wedding in case s/he has one', async () => {
 		.set(authHeader, 'Bearer ' + userOne.tokens[0].token)
 		.expect(200)
 
-	expect(res.body.wedding).not.toBeUndefined()
-	expect(res.body.user.id).toEqual(res.body.wedding.ownerId)
+	expect(res.body.wedding).toBeDefined()
+	expect(res.body.wedding.ownerId).toEqual(userOneId.toHexString())
 })
 
 test('should return portal version, i.e. shared messages and photos should not be included', async () => {

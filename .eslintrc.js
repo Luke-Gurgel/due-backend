@@ -25,6 +25,7 @@ module.exports = {
 		'@typescript-eslint/no-use-before-define': 'off',
 		'no-unexpected-multiline': 'error',
 		'@typescript-eslint/no-explicit-any': 'off',
+		'@typescript-eslint/camelcase': 'off',
 	},
 	settings: {
 		'import/resolver': {

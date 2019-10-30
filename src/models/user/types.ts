@@ -1,6 +1,7 @@
 import { Model, Document } from 'mongoose'
 import { SharedMessageDoc } from '../wedding/shared-message'
 import { SharedPhotoDoc } from '../wedding/shared-photo'
+import { WeddingDoc } from '../wedding'
 
 export interface Credentials {
 	email: string
@@ -26,8 +27,9 @@ export interface UserDoc extends Document {
 	fullname: string
 	email: string
 	password: string
-	avatar?: Buffer
 	tokens: JwtToken[]
+	avatar?: Buffer
+	wedding?: WeddingDoc
 	sharedMessages: SharedMessageDoc[]
 	sharedPhotos: SharedPhotoDoc[]
 	generateJwt: () => Promise<string>
