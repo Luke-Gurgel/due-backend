@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { auth, avatar } from 'src/middlewares'
-import { createUser } from './create'
+import { signupUser } from './signup'
 import { loginUser } from './login'
 import { logoutUser } from './logout'
 import { getUser } from './get-user'
@@ -9,7 +9,7 @@ import { uploadAvatar, avatarErrorHandler } from './avatar'
 
 const userRouter = Router()
 
-userRouter.route('/users/signup').post(createUser)
+userRouter.route('/users/signup').post(signupUser)
 
 userRouter.route('/users/login').post(loginUser)
 

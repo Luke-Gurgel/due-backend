@@ -1,7 +1,8 @@
 import request from 'supertest'
 import app from 'src/app'
 import User from 'src/models/user'
-import { userBody, clearDB } from '__tests__/__fixtures__/db'
+import { clearDB } from '__tests__/__fixtures__/db'
+import { userBody } from '__tests__/__fixtures__/users'
 
 afterEach(clearDB)
 
