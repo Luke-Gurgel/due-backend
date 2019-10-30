@@ -1,9 +1,18 @@
 import request from 'supertest'
 import app from 'src/app'
-import { clearDB, setupDB, userTwo, weddingTwoEventName } from '__tests__/__fixtures__/db'
-import { GuestVersion, DueEventStatus } from 'src/models/wedding'
+import User from 'src/models/user'
+import { Wedding, GuestVersion, DueEventStatus } from 'src/models/wedding'
+import { clearDB } from '__tests__/__fixtures__/db'
+import { userTwo } from '__tests__/__fixtures__/users'
+import { weddingTwo, weddingTwoEventName } from '__tests__/__fixtures__/weddings'
 
-beforeEach(setupDB)
+beforeAll(clearDB)
+
+beforeEach(async () => {
+	await new User(userTwo).save()
+	await new Wedding(weddingTwo).save()
+})
+
 afterEach(clearDB)
 
 const route = '/wedding/guestAccess'
