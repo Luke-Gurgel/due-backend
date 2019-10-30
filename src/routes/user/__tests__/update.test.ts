@@ -1,9 +1,13 @@
 import request from 'supertest'
 import app from 'src/app'
 import User from 'src/models/user'
-import { setupDB, userOne, userOneId, clearDB } from '__tests__/__fixtures__/db'
+import { clearDB } from '__tests__/__fixtures__/db'
+import { userOne, userOneId } from '__tests__/__fixtures__/users'
 
-beforeEach(setupDB)
+beforeEach(async () => {
+	await User.deleteMany(null)
+	await new User(userOne).save()
+})
 afterAll(clearDB)
 
 const route = '/users/me'

@@ -1,8 +1,18 @@
 import request from 'supertest'
 import app from 'src/app'
-import { userOne, userOneId, setupDB, clearDB } from '__tests__/__fixtures__/db'
+import User from 'src/models/user'
+import { Wedding } from 'src/models/wedding'
+import { clearDB } from '__tests__/__fixtures__/db'
+import { userOne, userOneId } from '__tests__/__fixtures__/users'
+import { weddingOne } from '__tests__/__fixtures__/weddings'
 
-beforeEach(setupDB)
+beforeEach(async () => {
+	await Wedding.deleteMany(null)
+	await User.deleteMany(null)
+	await new User(userOne).save()
+	await new Wedding(weddingOne).save()
+})
+
 afterAll(clearDB)
 
 const route = '/users/me'
@@ -21,7 +31,7 @@ test('should return user public profile', async () => {
 	expect(res.body.user.tokens).toBeUndefined()
 })
 
-test('should include user wedding in case s/he has one', async () => {
+test('should include their Due event in case they have purchased one', async () => {
 	const res = await request(app)
 		.get(route)
 		.set(authHeader, 'Bearer ' + userOne.tokens[0].token)
