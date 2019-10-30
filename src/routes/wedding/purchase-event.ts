@@ -1,11 +1,20 @@
 import { Response } from 'express'
 import { EnhancedRequest } from 'src/middlewares'
 import { UserDoc } from 'src/models/user/types'
+import { Wedding } from 'src/models/wedding'
 import Stripe from 'stripe'
 
-const stripe = new Stripe('')
+const stripe = new Stripe(process.env.STRIPE_SK_KEY || '')
 
-export const purchaseEvent = async (req: EnhancedRequest, res: Response): Promise<Response> => {
+const cardErrorMessage =
+	'Seu cartão foi rejeitado. Por favor, verifique que todas as informações estão corretas e que o car†ão é válido.'
+const unknownErrorMessage =
+	'Algo inesperado aconteceu. Estamos trabalhando para consertar este problema. Por favor, tente novamente mais tarde.'
+
+export const purchaseEvent = async (
+	req: EnhancedRequest,
+	res: Response,
+): Promise<Response | void> => {
 	if (!req.user || !req.user.email) {
 		return res.status(404).send({ error: 'Not authenticated' })
 	}
@@ -14,25 +23,36 @@ export const purchaseEvent = async (req: EnhancedRequest, res: Response): Promis
 		return res.status(400).send({ error: 'Stripe token required' })
 	}
 
-	if (checkIfUserAlreadyPurchasedEvent(req.user)) {
+	const userAlreadyPurchasedEvent = await checkIfUserAlreadyPurchasedEvent(req.user)
+
+	if (userAlreadyPurchasedEvent) {
 		return res.status(400).send({ error: 'User has already purchased an event' })
 	}
 
 	try {
-		const charge = await stripe.charges.create({
+		await stripe.charges.create({
 			amount: 2000,
 			currency: 'brl',
 			description: 'Evento Due',
 			source: req.body.stripeToken,
 			receipt_email: req.user.email,
 		})
-		return res.status(200).send({ charge })
+
+		const wedding = new Wedding({ ownerId: req.user._id })
+		await wedding.save()
+
+		res.status(200).send({ wedding })
 	} catch (error) {
-		return res.status(400).send({ error })
+		switch (error.type) {
+			case 'card_error':
+				return res.status(400).send({ error: cardErrorMessage })
+			default:
+				return res.status(500).send({ error: unknownErrorMessage })
+		}
 	}
 }
 
 export const checkIfUserAlreadyPurchasedEvent = async (user: UserDoc): Promise<boolean> => {
-	const wedding = await user.populate('wedding').execPopulate()
-	return wedding !== undefined || wedding !== null
+	await user.populate('wedding').execPopulate()
+	return user.wedding !== null
 }

@@ -33,6 +33,16 @@ export const userTwo = {
 	],
 }
 
+export const userThreeId = new mongoose.Types.ObjectId()
+export const userThree = {
+	_id: userThreeId,
+	fname: 'Leo',
+	lname: 'Messi',
+	email: 'messi@example.com',
+	password: 'IunnaIsFive',
+	tokens: [{ token: jwt.sign({ _id: userThreeId }, process.env.JWT_SECRET || '') }],
+}
+
 export const weddingOneId = new mongoose.Types.ObjectId()
 export const weddingOne: WeddingBase = {
 	_id: weddingOneId,
@@ -62,6 +72,7 @@ export const setupDB = async (): Promise<void> => {
 	await User.deleteMany(null)
 	await new User(userOne).save()
 	await new User(userTwo).save()
+	await new User(userThree).save()
 	await new Wedding(weddingOne).save()
 	await new Wedding(weddingTwo).save()
 	await new Wedding(weddingThree).save()
