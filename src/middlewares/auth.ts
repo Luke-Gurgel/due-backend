@@ -1,11 +1,13 @@
 import { Request, Response, NextFunction } from 'express'
+import jwt from 'jsonwebtoken'
 import User from 'src/models/user'
 import { UserDoc } from '../models/user/types'
-import jwt from 'jsonwebtoken'
+import { WeddingDoc } from 'src/models/wedding'
 
 export interface EnhancedRequest extends Request {
 	user?: UserDoc
 	token?: string
+	wedding?: WeddingDoc | null
 }
 
 export const auth = async (
