@@ -1,6 +1,6 @@
 import { Document } from 'mongoose'
 
-export interface GuestDoc extends Document {
+export interface GuestModel {
 	_id: any
 	weddingId: any
 	name: string
@@ -8,3 +8,5 @@ export interface GuestDoc extends Document {
 	hasRSVP: boolean
 	emailSent: boolean
 }
+
+export interface GuestDoc extends GuestModel, Document {}
