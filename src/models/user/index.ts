@@ -2,7 +2,7 @@ import mongoose, { Schema, SchemaOptions, HookNextFunction } from 'mongoose'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { isEmail } from 'validator'
-import { UserInterface, UserDoc, PublicProfile, Credentials } from './types'
+import { UserDoc, UserMethods, PublicProfile, Credentials } from './types'
 import Model from '../models'
 
 const options: SchemaOptions = { timestamps: true }
@@ -43,7 +43,9 @@ const UserSchema: Schema = new Schema(
 				return true
 			},
 		},
-		avatar: Buffer,
+		avatar: {
+			type: Buffer,
+		},
 		tokens: [
 			{
 				token: {
@@ -124,5 +126,5 @@ UserSchema.statics.findByCredentials = async ({
 	return user
 }
 
-const User = mongoose.model<UserDoc, UserInterface>(Model.USER, UserSchema)
+const User = mongoose.model<UserDoc, UserMethods>(Model.USER, UserSchema)
 export default User
