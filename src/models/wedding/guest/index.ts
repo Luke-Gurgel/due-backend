@@ -5,10 +5,6 @@ import { GuestDoc } from './types'
 const { ObjectId } = Schema.Types
 
 export const GuestSchema: Schema = new Schema({
-	_id: {
-		type: ObjectId,
-		required: true,
-	},
 	weddingId: {
 		type: ObjectId,
 		required: true,

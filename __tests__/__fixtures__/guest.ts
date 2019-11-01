@@ -41,3 +41,8 @@ export const guestFour: GuestModel = {
 	hasRSVP: false,
 	emailSent: false,
 }
+
+export const guestBody = {
+	name: 'Dybala',
+	email: 'dybala@mail.com',
+}
