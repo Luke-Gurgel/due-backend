@@ -30,8 +30,5 @@ export const SharedPhotoSchema: Schema = new Schema(
 	options,
 )
 
-export const SharedPhotoModel = mongoose.model<SharedPhotoDoc>(
-	Model.SHARED_PHOTO,
-	SharedPhotoSchema,
-)
+export const SharedPhoto = mongoose.model<SharedPhotoDoc>(Model.SHARED_PHOTO, SharedPhotoSchema)
 export * from './types'

@@ -1,9 +1,11 @@
 import { Document } from 'mongoose'
 
-export interface SharedPhotoDoc extends Document {
+export interface SharedPhotoModel extends Document {
 	_id: any
-	weddingId: any
 	authorId: any
-	photo: Buffer
+	weddingId: any
 	caption: string
+	photo: Buffer
 }
+
+export interface SharedPhotoDoc extends SharedPhotoModel, Document {}
