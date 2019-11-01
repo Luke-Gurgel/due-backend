@@ -18,28 +18,22 @@ export interface PublicProfile {
 	fullname: string
 	email: string
 	avatar?: Buffer
+	wedding?: WeddingDoc
+	sharedPhotos?: SharedPhotoDoc[]
+	sharedMessages?: SharedMessageDoc[]
 }
 
-export interface UserDoc extends Document {
-	_id: any
-	fname: string
-	lname: string
-	fullname: string
-	email: string
+export interface UserModel extends PublicProfile {
 	password: string
 	tokens: JwtToken[]
-	avatar?: Buffer
-	wedding?: WeddingDoc
-	sharedMessages: SharedMessageDoc[]
-	sharedPhotos: SharedPhotoDoc[]
-	generateJwt: () => Promise<string>
-	toJSON: () => PublicProfile
-	findByCredentials: (credentials: Credentials) => Promise<UserDoc>
+}
+
+export interface UserDoc extends UserModel, Document {
 	[key: string]: any
 }
 
-export interface UserInterface extends Model<UserDoc> {
-	generateJwt: () => Promise<string>
+export interface UserMethods extends Model<UserDoc> {
 	toJSON: () => PublicProfile
+	generateJwt: () => Promise<string>
 	findByCredentials: (credentials: Credentials) => Promise<UserDoc>
 }
