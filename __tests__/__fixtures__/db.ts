@@ -1,7 +1,8 @@
 import User from 'src/models/user'
-import { Wedding } from 'src/models/wedding'
+import { Wedding, Guest } from 'src/models/wedding'
 
 export const clearDB = async (): Promise<void> => {
-	await Wedding.deleteMany(null)
 	await User.deleteMany(null)
+	await Wedding.deleteMany(null)
+	await Guest.deleteMany(null)
 }

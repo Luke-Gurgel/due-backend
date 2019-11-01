@@ -1,10 +1,10 @@
 import request from 'supertest'
 import app from 'src/app'
-import { clearDB } from '__tests__/__fixtures__/db'
-import { userOne, userThree, userThreeId } from '__tests__/__fixtures__/users'
-import { weddingOne } from '__tests__/__fixtures__/weddings'
-import { Wedding } from 'src/models/wedding'
 import User from 'src/models/user'
+import { Wedding } from 'src/models/wedding'
+import { clearDB } from '__tests__/__fixtures__/db'
+import { weddingOne } from '__tests__/__fixtures__/weddings'
+import { userOne, userThree, userThreeId } from '__tests__/__fixtures__/users'
 
 beforeAll(clearDB)
 

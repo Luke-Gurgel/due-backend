@@ -1,10 +1,11 @@
 import request from 'supertest'
 import app from 'src/app'
 import User from 'src/models/user'
-import { Wedding } from 'src/models/wedding'
+import { Wedding, Guest } from 'src/models/wedding'
 import { clearDB } from '__tests__/__fixtures__/db'
 import { weddingOne, weddingTwo } from '__tests__/__fixtures__/weddings'
 import { userOne, userTwo, userThree } from '__tests__/__fixtures__/users'
+import { guestOne, guestTwo } from '__tests__/__fixtures__/guest'
 
 beforeEach(async () => {
 	await clearDB()
@@ -13,16 +14,18 @@ beforeEach(async () => {
 	await new User(userThree).save()
 	await new Wedding(weddingOne).save()
 	await new Wedding(weddingTwo).save()
+	await new Guest(guestOne).save()
+	await new Guest(guestTwo).save()
 })
 
 afterAll(clearDB)
 
-const route = '/wedding/eventName'
+const route = '/wedding/guestList'
 const authHeader = 'Authorization'
 
-test('should not allow name change if not authenticated', async () => {
+test('should not return guest list if not authenticated', async () => {
 	await request(app)
-		.post(route)
+		.get(route)
 		.expect(401)
 })
 
@@ -33,25 +36,24 @@ test('should return with a 404 with user has not purchased a wedding', async () 
 		.expect(404)
 })
 
-test('should not allow name change if the request body does not contain the new name', async () => {
-	await request(app)
-		.post(route)
+test('should return an empty list if wedding.guestList is undefined', async () => {
+	const res = await request(app)
+		.get(route)
 		.set(authHeader, 'Bearer ' + userTwo.tokens[0].token)
-		.expect(400)
-})
-
-test('should not allow name change if event has been activated', async () => {
-	await request(app)
-		.post(route)
-		.set(authHeader, 'Bearer ' + userTwo.tokens[0].token)
-		.send({ eventName: 'A new name' })
-		.expect(403)
-})
-
-test('should update the wedding event name', async () => {
-	await request(app)
-		.post(route)
-		.set(authHeader, 'Bearer ' + userOne.tokens[0].token)
-		.send({ eventName: 'An unique name' })
 		.expect(200)
+
+	expect(res.body.guestList).toBeDefined()
+	expect(res.body.guestList).toStrictEqual([])
+})
+
+test('should return wedding guest list', async () => {
+	const res = await request(app)
+		.get(route)
+		.set(authHeader, 'Bearer ' + userOne.tokens[0].token)
+		.expect(200)
+
+	expect(res.body.guestList).toBeDefined()
+	expect(res.body.guestList).toHaveLength(2)
+	expect(res.body.guestList[0].name).toBe('Ibra')
+	expect(res.body.guestList[1].name).toBe('Messi')
 })
