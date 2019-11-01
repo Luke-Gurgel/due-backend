@@ -28,5 +28,5 @@ export const GiftSchema: Schema = new Schema(
 	options,
 )
 
-export const GiftModel = mongoose.model<GiftDoc>(Model.GIFT, GiftSchema)
+export const Gift = mongoose.model<GiftDoc>(Model.GIFT, GiftSchema)
 export * from './types'

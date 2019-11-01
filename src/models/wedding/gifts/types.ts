@@ -1,8 +1,10 @@
 import { Document } from 'mongoose'
 
-export interface GiftDoc extends Document {
+export interface GiftModel {
 	_id: any
 	weddingId: any
 	giverName: string
 	amount: number
 }
+
+export interface GiftDoc extends GiftModel, Document {}
