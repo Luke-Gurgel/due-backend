@@ -4,6 +4,7 @@ import { purchaseEvent } from './purchase-event'
 import { changeEventName } from './event-name-change'
 import { getGuestList } from './get-guest-list'
 import { addGuest } from './add-guest'
+import { deleteGuest } from './delete-guest'
 import { auth, weddingAuth } from 'src/middlewares'
 
 const weddingRouter = Router()
@@ -18,5 +19,7 @@ weddingRouter
 	.route('/wedding/guests')
 	.get(auth, weddingAuth, getGuestList)
 	.post(auth, weddingAuth, addGuest)
+
+weddingRouter.route('/wedding/guests/:guestId').delete(auth, weddingAuth, deleteGuest)
 
 export default weddingRouter

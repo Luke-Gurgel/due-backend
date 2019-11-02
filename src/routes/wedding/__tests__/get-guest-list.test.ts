@@ -3,9 +3,9 @@ import app from 'src/app'
 import User from 'src/models/user'
 import { Wedding, Guest } from 'src/models/wedding'
 import { clearDB } from '__tests__/__fixtures__/db'
+import { guestOne, guestTwo } from '__tests__/__fixtures__/guest'
 import { weddingOne, weddingTwo } from '__tests__/__fixtures__/weddings'
 import { userOne, userTwo, userThree } from '__tests__/__fixtures__/users'
-import { guestOne, guestTwo } from '__tests__/__fixtures__/guest'
 
 beforeEach(async () => {
 	await clearDB()

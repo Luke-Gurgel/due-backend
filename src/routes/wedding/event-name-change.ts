@@ -7,7 +7,7 @@ export const changeEventName = async (
 	res: Response,
 ): Promise<Response | void> => {
 	if (!req.wedding) {
-		return res.status(500).send({ error: 'Something went wrong on our end' })
+		return res.status(404).send({ error: 'User has not purchased an event' })
 	}
 
 	if (!req.body.eventName) {

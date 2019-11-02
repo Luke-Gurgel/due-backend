@@ -8,7 +8,7 @@ export const addGuest = async (req: EnhancedRequest, res: Response): Promise<Res
 	}
 
 	if (!req.wedding) {
-		return res.status(401).send({ error: 'User has not purchased an event' })
+		return res.status(404).send({ error: 'User has not purchased an event' })
 	}
 
 	if (!req.body.guest || !req.body.guest.name) {
