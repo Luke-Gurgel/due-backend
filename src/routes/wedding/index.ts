@@ -5,6 +5,7 @@ import { changeEventName } from './event-name-change'
 import { getGuestList } from './get-guest-list'
 import { addGuest } from './add-guest'
 import { deleteGuest } from './delete-guest'
+import { updateGuest } from './update-guest'
 import { auth, weddingAuth } from 'src/middlewares'
 
 const weddingRouter = Router()
@@ -20,6 +21,9 @@ weddingRouter
 	.get(auth, weddingAuth, getGuestList)
 	.post(auth, weddingAuth, addGuest)
 
-weddingRouter.route('/wedding/guests/:guestId').delete(auth, weddingAuth, deleteGuest)
+weddingRouter
+	.route('/wedding/guests/:guestId')
+	.delete(auth, weddingAuth, deleteGuest)
+	.patch(auth, weddingAuth, updateGuest)
 
 export default weddingRouter
