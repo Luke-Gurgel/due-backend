@@ -2,7 +2,7 @@ import { Response, NextFunction } from 'express'
 import sharp from 'sharp'
 import { EnhancedRequest } from 'src/middlewares'
 
-export const uploadAvatar = async (
+export const uploadUserAvatar = async (
 	req: EnhancedRequest,
 	res: Response,
 ): Promise<Response | void> => {
