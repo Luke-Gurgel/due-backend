@@ -7,8 +7,8 @@ import { userOne, userOneId } from '__tests__/__fixtures__/users'
 import { weddingOne } from '__tests__/__fixtures__/weddings'
 
 beforeEach(async () => {
-	await Wedding.deleteMany(null)
 	await User.deleteMany(null)
+	await Wedding.deleteMany(null)
 	await new User(userOne).save()
 	await new Wedding(weddingOne).save()
 })
@@ -24,11 +24,21 @@ test('should return user public profile', async () => {
 		.set(authHeader, 'Bearer ' + userOne.tokens[0].token)
 		.expect(200)
 
-	if (!res.body.user) throw Error()
-
+	expect(res.body.user).toBeDefined()
 	expect(res.body.user).toHaveProperty('fname')
-	expect(res.body.user.password).toBeUndefined()
+})
+
+test('should not include sensitive data or messages and photos shared by that user', async () => {
+	const res = await request(app)
+		.get(route)
+		.set(authHeader, 'Bearer ' + userOne.tokens[0].token)
+		.expect(200)
+
+	expect(res.body.user).toBeDefined()
 	expect(res.body.user.tokens).toBeUndefined()
+	expect(res.body.user.password).toBeUndefined()
+	expect(res.body.user.sharedPhotos).toBeUndefined()
+	expect(res.body.user.sharedMessages).toBeUndefined()
 })
 
 test('should include their Due event in case they have purchased one', async () => {
@@ -37,8 +47,8 @@ test('should include their Due event in case they have purchased one', async () 
 		.set(authHeader, 'Bearer ' + userOne.tokens[0].token)
 		.expect(200)
 
-	expect(res.body.wedding).toBeDefined()
-	expect(res.body.wedding.ownerId).toEqual(userOneId.toHexString())
+	expect(res.body.user.wedding).toBeDefined()
+	expect(res.body.user.wedding.ownerId).toEqual(userOneId.toHexString())
 })
 
 test('should return portal version, i.e. shared messages and photos should not be included', async () => {
@@ -47,8 +57,8 @@ test('should return portal version, i.e. shared messages and photos should not b
 		.set(authHeader, 'Bearer ' + userOne.tokens[0].token)
 		.expect(200)
 
-	expect(res.body.wedding.sharedMessages).toBeUndefined()
-	expect(res.body.wedding.sharedPhotos).toBeUndefined()
+	expect(res.body.user.wedding.sharedMessages).toBeUndefined()
+	expect(res.body.user.wedding.sharedPhotos).toBeUndefined()
 })
 
 test('should not return profile for unauthorized user', async () => {

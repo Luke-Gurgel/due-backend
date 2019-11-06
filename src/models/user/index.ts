@@ -2,10 +2,14 @@ import mongoose, { Schema, SchemaOptions, HookNextFunction } from 'mongoose'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { isEmail } from 'validator'
-import { UserDoc, UserMethods, PublicProfile, Credentials } from './types'
+import { UserDoc, UserModel, UserMethods, PublicProfile, Credentials } from './types'
 import Model from '../models'
 
-const options: SchemaOptions = { timestamps: true }
+const options: SchemaOptions = {
+	timestamps: true,
+	toJSON: { virtuals: true },
+	toObject: { virtuals: true },
+}
 
 const UserSchema: Schema = new Schema(
 	{
@@ -105,10 +109,12 @@ UserSchema.methods.generateJwt = async function(this: UserDoc): Promise<string |
 }
 
 UserSchema.methods.toJSON = function(this: UserDoc): PublicProfile {
-	const user = this.toObject()
+	const user: UserModel = this.toObject()
 
-	delete user.password
 	delete user.tokens
+	delete user.password
+	delete user.sharedPhotos
+	delete user.sharedMessages
 
 	return user
 }

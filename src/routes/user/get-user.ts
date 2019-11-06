@@ -8,7 +8,7 @@ export const getUser = async (req: EnhancedRequest, res: Response): Promise<Resp
 
 	try {
 		await req.user.populate('wedding').execPopulate()
-		res.status(200).send({ user: req.user, wedding: req.user.wedding })
+		res.status(200).send({ user: req.user.toJSON() })
 	} catch (error) {
 		res.status(400).send({ error })
 	}
