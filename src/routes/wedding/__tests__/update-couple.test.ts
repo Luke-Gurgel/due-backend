@@ -13,7 +13,7 @@ beforeEach(async () => {
 	await new Wedding(weddingOne).save()
 })
 
-// afterAll(clearDB)
+afterAll(clearDB)
 
 const route = '/wedding/couple'
 const authHeader = 'Authorization'
