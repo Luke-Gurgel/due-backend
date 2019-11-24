@@ -6,19 +6,22 @@ const schemaOptions: SchemaOptions = {
 	toObject: { virtuals: true },
 }
 
-export const NewlyWedSchema: Schema = new Schema({
-	name: {
-		type: String,
-	},
-	photo: {
-		type: Buffer,
-	},
-})
-
 export const CoupleSchema: Schema = new Schema(
 	{
-		groom: NewlyWedSchema,
-		bride: NewlyWedSchema,
+		groomName: {
+			type: String,
+			trim: true,
+		},
+		groomPhoto: {
+			type: Buffer,
+		},
+		brideName: {
+			type: String,
+			trim: true,
+		},
+		bridePhoto: {
+			type: Buffer,
+		},
 		coupleStory: {
 			type: String,
 			trim: true,
@@ -32,15 +35,15 @@ CoupleSchema.virtual('progress').get(function(this: Couple) {
 
 	if (this.coupleStory) progress += 0.2
 
-	if (this.bride) {
-		if (this.bride.name) progress += 0.2
-		if (this.bride.photo) progress += 0.2
-	}
+	// if (this.bride) {
+	// 	if (this.bride.name) progress += 0.2
+	// 	if (this.bride.photo) progress += 0.2
+	// }
 
-	if (this.groom) {
-		if (this.groom.name) progress += 0.2
-		if (this.groom.photo) progress += 0.2
-	}
+	// if (this.groom) {
+	// 	if (this.groom.name) progress += 0.2
+	// 	if (this.groom.photo) progress += 0.2
+	// }
 
 	return progress.toFixed(2)
 })

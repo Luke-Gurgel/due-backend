@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 
-export default class WeddingMiddleware {
+export default class GuestMiddleware {
 	public static async addGuest(
 		req: Request,
 		res: Response,
