@@ -103,7 +103,7 @@ describe('Update couple endpoint', () => {
 			.expect(200)
 
 		expect(res.body.couple.groomPhoto).toBeDefined()
-		expect(res.body.couple.bridePhoto).toBeUndefined()
+		expect(res.body.couple.progress).toBe('0.20')
 	})
 
 	test('updates bride photo', async () => {
@@ -114,7 +114,7 @@ describe('Update couple endpoint', () => {
 			.expect(200)
 
 		expect(res.body.couple.bridePhoto).toBeDefined()
-		expect(res.body.couple.groomPhoto).toBeUndefined()
+		expect(res.body.couple.progress).toBe('0.20')
 	})
 
 	test('updates both groom and bride photos', async () => {
@@ -127,6 +127,7 @@ describe('Update couple endpoint', () => {
 
 		expect(res.body.couple.bridePhoto).toBeDefined()
 		expect(res.body.couple.groomPhoto).toBeDefined()
+		expect(res.body.couple.progress).toBe('0.40')
 	})
 
 	test('updates all properties in the couple object', async () => {
@@ -140,10 +141,11 @@ describe('Update couple endpoint', () => {
 			.field('coupleStory', 'Once upon a time...')
 			.expect(200)
 
-		expect(res.body.couple.bridePhoto).toBeDefined()
-		expect(res.body.couple.groomPhoto).toBeDefined()
 		expect(res.body.couple.groomName).toBeDefined()
 		expect(res.body.couple.brideName).toBeDefined()
+		expect(res.body.couple.bridePhoto).toBeDefined()
+		expect(res.body.couple.groomPhoto).toBeDefined()
 		expect(res.body.couple.coupleStory).toBeDefined()
+		expect(res.body.couple.progress).toBe('1.00')
 	})
 })
