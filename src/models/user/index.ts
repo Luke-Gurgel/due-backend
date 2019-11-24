@@ -2,8 +2,7 @@ import mongoose, { Schema, SchemaOptions, HookNextFunction } from 'mongoose'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { isEmail } from 'validator'
-import { UserDoc, UserModel, UserMethods, PublicProfile, Credentials } from './types'
-import Model from '../models'
+import { UserDoc, UserModel, UserMethods, PublicProfile, Model } from 'src/types'
 
 const options: SchemaOptions = {
 	timestamps: true,
@@ -67,13 +66,6 @@ const UserSchema: Schema = new Schema(
 	options,
 )
 
-UserSchema.virtual('wedding', {
-	ref: Model.WEDDING,
-	localField: '_id',
-	foreignField: 'ownerId',
-	justOne: true,
-})
-
 UserSchema.virtual('sharedMessages', {
 	ref: Model.SHARED_MESSAGE,
 	localField: '_id',
@@ -115,19 +107,6 @@ UserSchema.methods.toJSON = function(this: UserDoc): PublicProfile {
 	delete user.password
 	delete user.sharedPhotos
 	delete user.sharedMessages
-
-	return user
-}
-
-UserSchema.statics.findByCredentials = async ({
-	email,
-	password,
-}: Credentials): Promise<UserDoc> => {
-	const user = await User.findOne({ email })
-	if (!user) throw Error('Unable to log in')
-
-	const passwordsMatch = await bcrypt.compare(password, user.password)
-	if (!passwordsMatch) throw Error('Unable to log in')
 
 	return user
 }

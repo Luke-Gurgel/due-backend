@@ -1,12 +1,18 @@
 import { Request } from 'express'
-import { UserDoc } from 'src/models/user/types'
-import { WeddingDoc } from 'src/models/wedding'
+import { UserDoc } from './user'
+import { WeddingDoc } from './wedding'
 
 export interface AuthenticatedRequest extends Request {
 	user: UserDoc
 	token: string
 }
 
-export interface AuthenticatedWeddingRequest extends AuthenticatedRequest {
+export interface AuthenticatedWeddingAdminRequest extends AuthenticatedRequest {
 	wedding: WeddingDoc
+}
+
+export interface EnhancedRequest extends Request {
+	user?: UserDoc
+	wedding?: WeddingDoc
+	token?: string
 }

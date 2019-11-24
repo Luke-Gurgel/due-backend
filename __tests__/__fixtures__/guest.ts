@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import { weddingOneId, weddingTwoId } from './weddings'
-import { GuestModel } from 'src/models/wedding'
+import { GuestModel } from 'src/types'
 
 export const guestOneId = new mongoose.Types.ObjectId()
 export const guestOne: GuestModel = {

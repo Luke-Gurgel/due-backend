@@ -1,5 +1,10 @@
 module.exports = {
 	parser: '@typescript-eslint/parser',
+	parserOptions: {
+		ecmaVersion: 2018,
+		sourceType: 'module',
+		plugins: ['typescript'],
+	},
 	env: {
 		es6: true,
 		node: true,
@@ -7,22 +12,19 @@ module.exports = {
 	},
 	plugins: ['@typescript-eslint', 'jest'],
 	extends: [
+		'prettier',
+		'prettier/@typescript-eslint',
 		'plugin:jest/recommended',
 		'plugin:@typescript-eslint/recommended',
-		'prettier/@typescript-eslint',
 	],
 	globals: {
 		Atomics: 'readonly',
 		SharedArrayBuffer: 'readonly',
 	},
-	parserOptions: {
-		ecmaVersion: 2018,
-		sourceType: 'module',
-		plugins: ['typescript'],
-	},
 	rules: {
 		'space-before-function-paren': 'off',
 		'@typescript-eslint/no-use-before-define': 'off',
+		'@typescript-eslint/member-delimiter-style': 'off',
 		'no-unexpected-multiline': 'error',
 		'@typescript-eslint/no-explicit-any': 'off',
 		'@typescript-eslint/camelcase': 'off',
@@ -30,7 +32,10 @@ module.exports = {
 	settings: {
 		'import/resolver': {
 			alias: {
-				map: [['src', './src/'], ['__tests__', './__tests__/']],
+				map: [
+					['src', './src/'],
+					['__tests__', './__tests__/'],
+				],
 				extensions: ['.js', '.ts', '.json'],
 			},
 		},

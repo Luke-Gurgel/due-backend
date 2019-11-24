@@ -1,8 +1,4 @@
-import './db/mongoose'
-import app from './app'
+import App from './app'
 
-const port = process.env.PORT
-
-app.listen(port, () => {
-  console.log('server listening on port', port)
-})
+const app = new App()
+app.startServer()

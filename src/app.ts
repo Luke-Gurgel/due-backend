@@ -1,10 +1,21 @@
-import './db/mongoose'
-import express from 'express'
-import rootRouter from './routes'
+import express, { Application } from 'express'
+import loaders from './loaders'
 
-const app = express()
+export default class App {
+	public app: Application
 
-app.use(express.json())
-app.use(rootRouter)
+	constructor() {
+		this.app = express()
+		this.configure()
+	}
 
-export default app
+	private async configure(): Promise<void> {
+		await loaders(this.app)
+	}
+
+	public startServer(): void {
+		this.app.listen(process.env.PORT, () => {
+			console.log('server running on port ' + process.env.PORT)
+		})
+	}
+}
