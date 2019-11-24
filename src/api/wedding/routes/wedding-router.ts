@@ -3,10 +3,12 @@ import { Request, Response, NextFunction } from 'express'
 
 import WeddingMiddleware from '../middleware/wedding-middleware'
 import GuestMiddleware from '../middleware/guest-middleware'
+import CoupleMiddleware from '../middleware/couple-middleware'
 import authMiddleware from '../../shared/auth-middleware'
 
 import WeddingController from '../controllers/wedding-controller'
 import GuestController from '../controllers/guest-controller'
+import CoupleController from '../controllers/couple-controller'
 
 import WeddingErrorHandler from '../error-handlers/wedding-error-handler'
 
@@ -36,14 +38,18 @@ weddingRouter
 	.patch(GuestMiddleware.updateGuest, GuestController.updateGuest)
 	.delete(GuestController.deleteGuest)
 
-// weddingRouter
-// 	.route('/wedding/couple')
-// 	.post(
-// 		auth,
-// 		weddingAuth,
-// 		couplePhotos.fields([{ maxCount: 1, name: 'groomPhoto' }, { maxCount: 1, name: 'bridePhoto' }]),
-// 		updateCouple,
-// 	)
+weddingRouter
+	.route('/wedding/couple')
+	.all(authMiddleware, WeddingMiddleware.adminAuth)
+	.post(
+		CoupleMiddleware.updateCouple,
+		CoupleMiddleware.updateCouplePhotos().fields([
+			{ name: 'groomPhoto', maxCount: 1 },
+			{ name: 'bridePhoto', maxCount: 1 },
+		]),
+		CoupleMiddleware.couplePhotosErrorHandler,
+		CoupleController.updateCouple,
+	)
 
 weddingRouter.use((error: Error, req: Request, res: Response, next: NextFunction) => {
 	return new WeddingErrorHandler(error, res)

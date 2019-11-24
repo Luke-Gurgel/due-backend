@@ -1,10 +1,14 @@
-export interface NewlyWed {
-	name?: string
-	photo?: string | Buffer
-}
+import { WeddingDoc } from './wedding'
 
 export interface Couple {
-	groom?: NewlyWed
-	bride?: NewlyWed
+	groomName?: string
+	groomPhoto?: string | Buffer
+	brideName?: string
+	bridePhoto?: string | Buffer
 	coupleStory?: string
+}
+
+export interface UpdateCoupleDto {
+	wedding: WeddingDoc
+	couple: Couple
 }
