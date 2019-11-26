@@ -2,22 +2,6 @@ import { Request, Response, NextFunction } from 'express'
 import multer = require('multer')
 
 export default class CoupleMiddleware {
-	public static async updateCouple(
-		req: Request,
-		res: Response,
-		next: NextFunction,
-	): Promise<Response | void> {
-		const bodyFields = Object.keys(req.body)
-		const validFields = ['groomName', 'groomPhoto', 'brideName', 'bridePhoto', 'coupleStory']
-
-		const isValidUpdate = bodyFields.every(field => validFields.includes(field))
-		if (!isValidUpdate) {
-			return res.status(400).send({ error: 'Request body contains invalid field(s)' })
-		}
-
-		next()
-	}
-
 	public static updateCouplePhotos(): multer.Instance {
 		return multer({
 			limits: { fileSize: 1000000 },

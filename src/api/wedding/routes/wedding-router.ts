@@ -44,7 +44,6 @@ weddingRouter
 	.route('/wedding/couple')
 	.all(authMiddleware, WeddingMiddleware.adminAuth)
 	.post(
-		CoupleMiddleware.updateCouple,
 		CoupleMiddleware.updateCouplePhotos().fields([
 			{ name: 'groomPhoto', maxCount: 1 },
 			{ name: 'bridePhoto', maxCount: 1 },
