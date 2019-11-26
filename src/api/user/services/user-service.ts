@@ -42,7 +42,7 @@ export default class UserService extends Publisher {
 		avatar,
 	}: UpdateUserDto): Promise<UpdateUserPayload> {
 		if (avatar) {
-			user.avatar = await ImageHandlingService.handleUserAvatar(avatar)
+			user.avatar = await ImageHandlingService.resizeImage(avatar, 80, 80)
 		}
 
 		for (const key in fields) {

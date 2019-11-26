@@ -88,4 +88,22 @@ describe('Update wedding event endpoint', () => {
 			.field('locationName', 'Igreja dos bons ventos')
 			.expect(200)
 	})
+
+	test('rejects w/ 500 if request attempts to add an instruction without a title', async () => {
+		await request(app)
+			.post(route)
+			.set(authHeader, 'Bearer ' + userOne.tokens[0].token)
+			.send({ instructions: [{ message: 'hey there' }] })
+			.expect(500)
+	})
+
+	test('adds instructions with invalid fields, but omitting them', async () => {
+		const res = await request(app)
+			.post(route)
+			.set(authHeader, 'Bearer ' + userOne.tokens[0].token)
+			.send({ instructions: [{ title: 'hey there', what: 'lol' }] })
+			.expect(200)
+
+		expect(res.body.event.instructions[0]).not.toHaveProperty('what')
+	})
 })

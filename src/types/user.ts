@@ -73,7 +73,7 @@ export interface UserUpdateValidFields {
 export interface UpdateUserDto {
 	user: UserDoc
 	fields: UserUpdateValidFields
-	avatar?: Express.Multer.File
+	avatar?: Buffer | string
 }
 
 export interface UpdateUserPayload {

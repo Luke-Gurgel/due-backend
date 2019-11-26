@@ -5,7 +5,7 @@ export default class EventService {
 	public static async updateEvent({ wedding, event }: UpdateEventDto): Promise<Event | undefined> {
 		if (event.photos?.length) {
 			event.photos.forEach(async (photo, i, array) => {
-				array[i] = await ImageHandlingService.handleLocationPhoto(photo)
+				array[i] = await ImageHandlingService.resizeImage(photo, 350, 300)
 			})
 		}
 

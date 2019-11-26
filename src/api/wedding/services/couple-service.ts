@@ -7,11 +7,11 @@ export default class CoupleService {
 		couple,
 	}: UpdateCoupleDto): Promise<Couple | undefined> {
 		if (couple.groomPhoto) {
-			couple.groomPhoto = await ImageHandlingService.handleCouplePhoto(couple.groomPhoto)
+			couple.groomPhoto = await ImageHandlingService.resizeImage(couple.groomPhoto, 100, 100)
 		}
 
 		if (couple.bridePhoto) {
-			couple.bridePhoto = await ImageHandlingService.handleCouplePhoto(couple.bridePhoto)
+			couple.bridePhoto = await ImageHandlingService.resizeImage(couple.bridePhoto, 100, 100)
 		}
 
 		for (const key in couple) {
