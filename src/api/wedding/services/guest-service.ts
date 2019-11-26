@@ -14,7 +14,7 @@ export default class GuestService {
 	}
 
 	public static async updateGuest({ guestId, fields }: UpdateGuestDto): Promise<GuestDoc | null> {
-		const guest = await Guest.findByIdAndUpdate(guestId, fields)
+		const guest = await Guest.findByIdAndUpdate(guestId, fields, { strict: 'throw' })
 		if (!guest) throw Error('Guest not found:404')
 		return guest
 	}

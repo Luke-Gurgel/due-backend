@@ -8,6 +8,7 @@ export const GuestSchema: Schema = new Schema({
 		type: ObjectId,
 		required: true,
 		ref: Model.WEDDING,
+		immutable: true,
 	},
 	name: {
 		type: String,

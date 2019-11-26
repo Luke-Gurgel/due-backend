@@ -19,7 +19,7 @@ export default class ImageHandlingService {
 		return buffer
 	}
 
-	public static async handleLocationPhoto(photo: Buffer): Promise<Buffer> {
+	public static async handleLocationPhoto(photo: Buffer | string): Promise<Buffer> {
 		const buffer = await sharp(photo)
 			.resize(350, 300)
 			.png()
