@@ -37,26 +37,9 @@ export default class UserMiddleware {
 		next()
 	}
 
-	public static async userUpdateValidator(
-		req: Request,
-		res: Response,
-		next: NextFunction,
-	): Promise<Response | void> {
-		const validFields = ['fname', 'lname', 'email', 'password']
-		const isValidUpdate = Object.keys(req.body).every((field: string) =>
-			validFields.includes(field),
-		)
-
-		if (isValidUpdate === false) {
-			return res.status(400).send({ error: 'Request body contains invalid field(s)' })
-		}
-
-		next()
-	}
-
 	public static avatarValidator(): multer.Instance {
 		return multer({
-			limits: { fileSize: 1000000, files: 1 },
+			limits: { fileSize: 1000000 },
 			fileFilter(_, file, cb) {
 				const isSupportedFileType = file.originalname.match(/\.(jpg|jpeg|png)$/)
 				if (!isSupportedFileType) {

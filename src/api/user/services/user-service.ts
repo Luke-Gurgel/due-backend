@@ -47,7 +47,7 @@ export default class UserService extends Publisher {
 
 		for (const key in fields) {
 			const field = key as keyof UserUpdateValidFields
-			user[field] = fields[field] ?? user[field]
+			user.set(field, fields[field], { strict: 'throw' })
 		}
 
 		await user.save()
