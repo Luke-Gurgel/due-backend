@@ -1,23 +1,20 @@
+import { WeddingDoc } from './wedding'
+
 export interface Instruction {
 	_id: any
 	title: string
 	message: string
 }
 
-export interface Coords {
-	lat: number
-	long: number
-}
-
-export interface EventLocation {
-	locationName: string
-	address: string
-	coords: Coords
-}
-
 export interface Event {
-	photos: Buffer[]
-	location: EventLocation
 	date: Date
+	photos: Buffer[]
+	locationName: string
+	locationAddress: string
 	instructions: Instruction[]
+}
+
+export interface UpdateEventDto {
+	wedding: WeddingDoc
+	event: Event
 }

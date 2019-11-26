@@ -11,24 +11,12 @@ export const InstructionSchema: Schema = new Schema({
 export const EventSchema: Schema = new Schema({
 	photos: {
 		type: [Buffer],
-		required: true,
 	},
-	location: {
-		address: {
-			type: String,
-			required: true,
-		},
-		coords: {
-			lat: {
-				type: Number,
-				required: true,
-			},
-			long: {
-				type: Number,
-				required: true,
-			},
-		},
-		locationName: String,
+	locationAddress: {
+		type: String,
+	},
+	locationName: {
+		type: String,
 	},
 	date: {
 		type: Date,
