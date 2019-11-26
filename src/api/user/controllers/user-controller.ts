@@ -58,7 +58,7 @@ export default class UserController {
 		next: NextFunction,
 	): Promise<void> {
 		const { user, body, file: avatar } = req as AuthenticatedRequest
-		const updateUserDto: UpdateUserDto = { user, avatar, fields: body }
+		const updateUserDto: UpdateUserDto = { user, avatar: avatar?.buffer, fields: body }
 
 		try {
 			const { user } = await UserService.updateUser(updateUserDto)

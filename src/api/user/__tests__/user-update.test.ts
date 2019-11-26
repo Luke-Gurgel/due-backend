@@ -14,25 +14,6 @@ const route = '/users/me'
 const authHeader = 'Authorization'
 
 describe('Update user endpoint', () => {
-	test('updates user profile', async () => {
-		const res = await request(app)
-			.post(route)
-			.set(authHeader, 'Bearer ' + userOne.tokens[0].token)
-			.send({ lname: 'Messi' })
-			.expect(200)
-
-		expect(res.body.user).toBeDefined()
-		expect(res.body.user.lname).toBe('Messi')
-	})
-
-	test('rejects w/ 400 if request contains invalid field', async () => {
-		await request(app)
-			.post(route)
-			.set(authHeader, 'Bearer ' + userOne.tokens[0].token)
-			.send({ invalidField: 'what?' })
-			.expect(400)
-	})
-
 	test('rejects w/ 401 if not authenticated', async () => {
 		await request(app)
 			.post(route)
@@ -49,7 +30,7 @@ describe('Update user endpoint', () => {
 			.post(route)
 			.set(authHeader, 'Bearer ' + userOne.tokens[0].token)
 			.send({ email: 'invalidemail.com' })
-			.expect(400)
+			.expect(500)
 	})
 
 	test('rejects w/ 500 if password does not meet criteria', async () => {
@@ -57,37 +38,15 @@ describe('Update user endpoint', () => {
 			.post(route)
 			.set(authHeader, 'Bearer ' + userOne.tokens[0].token)
 			.send({ password: '123password' })
-			.expect(400)
+			.expect(500)
 	})
 
-	test("updates user's avatar", async () => {
+	test('rejects w/ 500 if request body contains invalid field', async () => {
 		await request(app)
 			.post(route)
 			.set(authHeader, 'Bearer ' + userOne.tokens[0].token)
-			.attach('avatar', '__tests__/__assets__/mimo.jpg')
-			.expect(200)
-
-		const userWithAvatar = await User.findById(userOneId)
-		if (!userWithAvatar) throw Error()
-
-		expect(userWithAvatar.avatar).toEqual(expect.any(Buffer))
-	})
-
-	test("updates user's avatar and name in a single request", async () => {
-		await request(app)
-			.post(route)
-			.set(authHeader, 'Bearer ' + userOne.tokens[0].token)
-			.attach('avatar', '__tests__/__assets__/mimo.jpg')
-			.field('lname', 'Ronaldo')
-			.field('fname', 'Cristiano')
-			.expect(200)
-
-		const userWithAvatar = await User.findById(userOneId)
-		if (!userWithAvatar) throw Error()
-
-		expect(userWithAvatar.avatar).toEqual(expect.any(Buffer))
-		expect(userWithAvatar.fname).toBe('Cristiano')
-		expect(userWithAvatar.lname).toBe('Ronaldo')
+			.send({ hello: 'im_invalid' })
+			.expect(500)
 	})
 
 	test('rejects w/ 401 for avatar only update if not authenticated', async () => {
@@ -118,5 +77,46 @@ describe('Update user endpoint', () => {
 			.expect(400)
 
 		expect(res.body.error).toBe('File too large')
+	})
+
+	test('updates user profile', async () => {
+		const res = await request(app)
+			.post(route)
+			.set(authHeader, 'Bearer ' + userOne.tokens[0].token)
+			.send({ lname: 'Messi' })
+			.expect(200)
+
+		expect(res.body.user).toBeDefined()
+		expect(res.body.user.lname).toBe('Messi')
+	})
+
+	test("updates user's avatar", async () => {
+		await request(app)
+			.post(route)
+			.set(authHeader, 'Bearer ' + userOne.tokens[0].token)
+			.attach('avatar', '__tests__/__assets__/mimo.jpg')
+			.expect(200)
+
+		const userWithAvatar = await User.findById(userOneId)
+		if (!userWithAvatar) throw Error()
+
+		expect(userWithAvatar.avatar).toEqual(expect.any(Buffer))
+	})
+
+	test("updates user's avatar and name in a single request", async () => {
+		await request(app)
+			.post(route)
+			.set(authHeader, 'Bearer ' + userOne.tokens[0].token)
+			.attach('avatar', '__tests__/__assets__/mimo.jpg')
+			.field('lname', 'Ronaldo')
+			.field('fname', 'Cristiano')
+			.expect(200)
+
+		const userWithAvatar = await User.findById(userOneId)
+		if (!userWithAvatar) throw Error()
+
+		expect(userWithAvatar.avatar).toEqual(expect.any(Buffer))
+		expect(userWithAvatar.fname).toBe('Cristiano')
+		expect(userWithAvatar.lname).toBe('Ronaldo')
 	})
 })

@@ -4,11 +4,13 @@ import { Request, Response, NextFunction } from 'express'
 import WeddingMiddleware from '../middleware/wedding-middleware'
 import GuestMiddleware from '../middleware/guest-middleware'
 import CoupleMiddleware from '../middleware/couple-middleware'
+import EventMiddleware from '../middleware/event-middleware'
 import authMiddleware from '../../shared/auth-middleware'
 
 import WeddingController from '../controllers/wedding-controller'
 import GuestController from '../controllers/guest-controller'
 import CoupleController from '../controllers/couple-controller'
+import EventController from '../controllers/event-controller'
 
 import WeddingErrorHandler from '../error-handlers/wedding-error-handler'
 
@@ -42,13 +44,21 @@ weddingRouter
 	.route('/wedding/couple')
 	.all(authMiddleware, WeddingMiddleware.adminAuth)
 	.post(
-		CoupleMiddleware.updateCouple,
 		CoupleMiddleware.updateCouplePhotos().fields([
 			{ name: 'groomPhoto', maxCount: 1 },
 			{ name: 'bridePhoto', maxCount: 1 },
 		]),
 		CoupleMiddleware.couplePhotosErrorHandler,
 		CoupleController.updateCouple,
+	)
+
+weddingRouter
+	.route('/wedding/event')
+	.all(authMiddleware, WeddingMiddleware.adminAuth)
+	.post(
+		EventMiddleware.updateEventPhotos().array('photos', 3),
+		EventMiddleware.eventPhotosErrorHandler,
+		EventController.updateEvent,
 	)
 
 weddingRouter.use((error: Error, req: Request, res: Response, next: NextFunction) => {

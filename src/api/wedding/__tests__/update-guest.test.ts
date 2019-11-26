@@ -62,20 +62,32 @@ describe('Guest update endpoint', () => {
 		expect(res.body.error).toBe('Guest not found')
 	})
 
-	test('rejects w/ 400 if any invalid field is included in the request body', async () => {
-		const res = await request(app)
+	test('rejects w/ 500 if any invalid field is included in the request body', async () => {
+		await request(app)
 			.patch(route + `/${guestOneId}`)
 			.set(authHeader, 'Bearer ' + userOne.tokens[0].token)
 			.send({ name: 'Some new name', email: 'a_new_email@gmail.com', blah: true })
-			.expect(400)
-
-		expect(res.body.error).toBe('Invalid update operation')
+			.expect(500)
 
 		const guest = await GuestDAL.findById(guestOneId.toHexString())
 		if (!guest) throw Error()
 
 		expect(guest.name).toBe(guestOne.name)
 		expect(guest.email).toBe(guestOne.email)
+	})
+
+	test('rejects w/ 500 if any immutable field is included in the request body', async () => {
+		await request(app)
+			.patch(route + `/${guestOneId}`)
+			.set(authHeader, 'Bearer ' + userOne.tokens[0].token)
+			.send({ name: 'Some new name', weddingId: 'some-weak-id' })
+			.expect(500)
+
+		const guest = await GuestDAL.findById(guestOneId.toHexString())
+		if (!guest) throw Error()
+
+		expect(guest.name).toBe(guestOne.name)
+		expect(guest.weddingId.toHexString()).toBe(guestOne.weddingId.toHexString())
 	})
 
 	test('updates a guest', async () => {

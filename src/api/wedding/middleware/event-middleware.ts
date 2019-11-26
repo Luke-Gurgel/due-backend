@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
 import multer = require('multer')
 
-export default class CoupleMiddleware {
-	public static updateCouplePhotos(): multer.Instance {
+export default class EventMiddleware {
+	public static updateEventPhotos(): multer.Instance {
 		return multer({
 			limits: { fileSize: 1000000 },
 			fileFilter(_, file, cb) {
@@ -16,7 +16,7 @@ export default class CoupleMiddleware {
 		})
 	}
 
-	public static couplePhotosErrorHandler(
+	public static eventPhotosErrorHandler(
 		error: Error,
 		_: Request,
 		res: Response,

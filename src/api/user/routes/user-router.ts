@@ -15,10 +15,9 @@ userRouter
 	.all(authMiddleware)
 	.get(UserController.getProfile)
 	.post(
-		UserMiddleware.userUpdateValidator,
 		UserMiddleware.avatarValidator().single('avatar'),
-		UserController.updateProfile,
 		UserMiddleware.avatarErrorHandler,
+		UserController.updateProfile,
 	)
 
 userRouter.use((error: Error, req: Request, res: Response, next: NextFunction) => {
